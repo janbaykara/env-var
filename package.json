@@ -1,7 +1,7 @@
 {
   "name": "get-env",
   "version": "0.1.0",
-  "description": "",
+  "description": "programmatic wrapper for process.env with support for defaults",
   "main": "index.js",
   "directories": {
     "test": "test"
