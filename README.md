@@ -2,9 +2,35 @@
 
 Module that exposes a wrapper for _process.env_. You may wonder why, which is
 pretty understandable. My primary reasoning for creating this module is to
-assist in testing.
+assist in testing as explained below.
 
-## Testing?
+
+## API
+The API is just a single function that's exposed, let's call it _getEnv_.
+
+#### getEnv([varname, [default]])
+You can call this function 3 different ways:
+
+1. Calling without arguments will return the _process.env_ Object.
+2. Calling with _varname_ will return that variable value or _undefined_.
+3. Calling with _varname_, and _default_ will return the value for _varname_
+set on process.env, or if the variable is not set _default_ is returned.
+
+## Example
+
+```js
+var getEnv = require('get-env');
+
+process.env.SOME_VAR = 'test';
+
+var call1 = getEnv(); // Will return process.env Object
+var call2 = getEnv('SOME_VAR'); // Will return "test"
+var call3 = getEnv('NOT_SOME_VAR'); // Will return undefined
+var call4 = getEnv('NOT_SOME_VAR', 'not-test'); // Will return "not-test"
+```
+
+
+## Good for Testing?
 
 When testing code that relies on environment variables sometimes we need to
 mock out/set the environment variables. Having calls to _process.env_ strewn
@@ -52,28 +78,4 @@ describe('module test', function () {
     expect(envStub.getCall(0).args[0]).to.equal('HELLO');
   });
 });
-```
-
-## API
-The API is just a single function that's exposed, let's call it _getEnv_.
-
-#### getEnv([varname, [default]])
-You can call this function 3 different ways:
-
-1. Calling without arguments will return the _process.env_ Object.
-2. Calling with _varname_ will return that variable value or _undefined_.
-3. Calling with _varname_, and _default_ will return the value for _varname_
-set on process.env, or if the variable is not set _default_ is returned.
-
-## Example
-
-```js
-var getEnv = require('get-env');
-
-process.env.SOME_VAR = 'test';
-
-var call1 = getEnv(); // Will return process.env Object
-var call2 = getEnv('SOME_VAR'); // Will return "test"
-var call3 = getEnv('NOT_SOME_VAR'); // Will return undefined
-var call4 = getEnv('NOT_SOME_VAR', 'not-test'); // Will return "not-test"
 ```
