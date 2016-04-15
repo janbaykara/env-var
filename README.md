@@ -1,4 +1,4 @@
-# get-env
+# env-var
 
 Module that exposes a wrapper for _process.env_. You may wonder why, which is
 pretty understandable. My primary reasoning for creating this module is to
@@ -19,7 +19,7 @@ set on process.env, or if the variable is not set _default_ is returned.
 ## Example
 
 ```js
-var getEnv = require('get-env');
+var getEnv = require('env-var');
 
 process.env.SOME_VAR = 'test';
 
@@ -39,7 +39,7 @@ throughout a test is and can get confusing.
 It's better to do something like this:
 
 ```js
-var env = require('get-env');
+var env = require('env-var');
 
 exports.concat = function (envVarToGet) {
   return envVarToGet
@@ -64,7 +64,7 @@ describe('module test', function () {
     envStub = sinon.stub();
 
     mod = proxyquire('./concat', {
-      'get-env': envStub
+      'env-var': envStub
     });
   });
 

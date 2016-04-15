@@ -1,6 +1,6 @@
 {
-  "name": "get-env",
-  "version": "0.1.0",
+  "name": "env-var",
+  "version": "1.0.0",
   "description": "programmatic wrapper for process.env with support for defaults",
   "main": "index.js",
   "directories": {
