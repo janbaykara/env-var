@@ -104,9 +104,51 @@ describe('env-var', function () {
   });
 
   describe('#asBool', function () {
-    it('should return a bool', function () {
+    it('should return a bool - for string "false"', function () {
       expect(mod('BOOL').asBool()).to.be.a('boolean');
-      expect(mod('BOOL').asBool()).to.equal(Boolean(TEST_VARS.BOOL));
+      expect(mod('BOOL').asBool()).to.equal(false);
+    });
+
+    it('should return a bool - for string "FALSE"', function () {
+      process.env.BOOL = 'FALSE';
+      expect(mod('BOOL').asBool()).to.be.a('boolean');
+      expect(mod('BOOL').asBool()).to.equal(false);
+    });
+
+    it('should return a bool - for string "0"', function () {
+      process.env.BOOL = '0';
+      expect(mod('BOOL').asBool()).to.be.a('boolean');
+      expect(mod('BOOL').asBool()).to.equal(false);
+    });
+
+    it('should return a bool - for integer 0', function () {
+      process.env.BOOL = 0;
+      expect(mod('BOOL').asBool()).to.be.a('boolean');
+      expect(mod('BOOL').asBool()).to.equal(false);
+    });
+
+    it('should return a bool - for string "true"', function () {
+      process.env.BOOL = 'true';
+      expect(mod('BOOL').asBool()).to.be.a('boolean');
+      expect(mod('BOOL').asBool()).to.equal(true);
+    });
+
+    it('should return a bool - for string "TRUE"', function () {
+      process.env.BOOL = 'TRUE';
+      expect(mod('BOOL').asBool()).to.be.a('boolean');
+      expect(mod('BOOL').asBool()).to.equal(true);
+    });
+
+    it('should return a bool - for string "1"', function () {
+      process.env.BOOL = '1';
+      expect(mod('BOOL').asBool()).to.be.a('boolean');
+      expect(mod('BOOL').asBool()).to.equal(true);
+    });
+
+    it('should return a bool - for integer 1', function () {
+      process.env.BOOL = 1;
+      expect(mod('BOOL').asBool()).to.be.a('boolean');
+      expect(mod('BOOL').asBool()).to.equal(true);
     });
 
     it('should throw an exception - invalid boolean found', function () {
@@ -114,6 +156,71 @@ describe('env-var', function () {
 
       expect(function () {
         mod('BOOL').asBool();
+      }).to.throw();
+    });
+  });
+
+  describe('#asStrictBool', function () {
+    it('should return a bool - for string "false"', function () {
+      expect(mod('BOOL').asStrictBool()).to.be.a('boolean');
+      expect(mod('BOOL').asStrictBool()).to.equal(false);
+    });
+
+    it('should return a bool - for string "FALSE"', function () {
+      process.env.BOOL = 'FALSE';
+      expect(mod('BOOL').asStrictBool()).to.be.a('boolean');
+      expect(mod('BOOL').asStrictBool()).to.equal(false);
+    });
+
+    it('should throw an exception - for string "0"', function () {
+      process.env.BOOL = '0';
+
+      expect(function () {
+        mod('BOOL').asStrictBool();
+      }).to.throw();
+    });
+
+    it('should throw an exception - for integer 0', function () {
+      process.env.BOOL = 0;
+
+      expect(function () {
+        mod('BOOL').asStrictBool();
+      }).to.throw();
+    });
+
+    it('should return a bool - for string "true"', function () {
+      process.env.BOOL = 'true';
+      expect(mod('BOOL').asStrictBool()).to.be.a('boolean');
+      expect(mod('BOOL').asStrictBool()).to.equal(true);
+    });
+
+    it('should return a bool - for string "TRUE"', function () {
+      process.env.BOOL = 'TRUE';
+      expect(mod('BOOL').asStrictBool()).to.be.a('boolean');
+      expect(mod('BOOL').asStrictBool()).to.equal(true);
+    });
+
+    it('should throw an exception - for string "1"', function () {
+      process.env.BOOL = '1';
+
+      expect(function () {
+        mod('BOOL').asStrictBool();
+      }).to.throw();
+    });
+
+    it('should throw an exception - for integer 1', function () {
+      process.env.BOOL = 1;
+
+      expect(function () {
+        mod('BOOL').asStrictBool();
+      }).to.throw();
+    });
+
+    it('should throw an exception - invalid boolean found', function () {
+      process.env.BOOL = 'nope';
+
+      expect(function () {
+        mod('BOOL').asStrictBool();
       }).to.throw();
     });
   });
