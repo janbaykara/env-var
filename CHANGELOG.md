@@ -1,3 +1,9 @@
+## 2.2.0 (28 October 2016)
+* Thanks to @itavy for a patch for our _asBool_ parsing and adding the new
+_asStrictBool_ function
+
+## 2.1.0 (25 October 2016)
+* Added _env.mock_ PR from @MikeyBurkman to improve testability
 
 ## 2.0.0 (27 July 2016)
 * Add CI process for node 6, 5, 4, and 0.10

@@ -62,7 +62,7 @@ var MAX_BATCH_SIZE = env('MAX_BATCH_SIZE').required().asInt();
 ```
 
 When it comes to testing code that relies on environment variables this is also
-great since you can mock out *env-var* using *proxyquire* to easily alter 
+great since you can mock out *env-var* using *proxyquire* to easily alter
 results returned without having to share state via *process.env*. A
 demonstration of this is at the bottom of the README.
 
@@ -110,13 +110,13 @@ String. It's highly unlikely that a variable will not be a String since all
 
 #### asBool()
 Attempt to parse the variable to a Boolean. Throws an exception if parsing
-fails. The var must be set to either "true", "false" (and any case writing of 
-those two strings), 0 or 1 to succeed.
+fails. The var must be set to either "true", "false" (upper or lowercase),
+0 or 1 to succeed.
 
 #### asStrictBool()
 Attempt to parse the variable to a Boolean. Throws an exception if parsing
-fails. The var must be set to either "true" or "false" (and any case writing 
-of those two strings) to succeed.
+fails. The var must be set to either "true" or "false" (upper or lowercase) to
+succeed.
 
 #### asJson()
 Attempt to parse the variable to a JSON Object. Throws an exception if parsing
@@ -160,9 +160,9 @@ When testing code that relies on environment variables sometimes we need to
 mock out/set the environment variables. Having calls to _process.env_ strewn
 throughout a test is and can get confusing and modifies global state (not good).
 
-It's better to use *env-var* and its built-in `mock()` function. Using `mock()` 
+It's better to use *env-var* and its built-in `mock()` function. Using `mock()`
 will allow you to create a mocked version of env-var which will use a literal
-object **instead** of using _process.env_. You can use this mocked version with 
+object **instead** of using _process.env_. You can use this mocked version with
 something like Proxyquire. For example:
 
 ```js
@@ -211,3 +211,7 @@ describe('concat.js', function () {
 });
 
 ```
+
+## Contributors
+* @MikeyBurkman
+* @itavy
