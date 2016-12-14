@@ -1,6 +1,5 @@
-## 2.3.0
-* Added *asArray* and *asObject* for more a strict type check. These are
-similar to *asJson*, but ensure an item is an Array or Object.
+## 2.3.0 (12 December 2016)
+* Add typings support for TypeScript
 
 ## 2.2.0 (28 October 2016)
 * Thanks to @itavy for a patch for our _asBool_ parsing and adding the new

@@ -1,6 +1,6 @@
 {
   "name": "env-var",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "programmatic wrapper for process.env with support for defaults",
   "main": "lib/index.js",
   "scripts": {
