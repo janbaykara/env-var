@@ -1,4 +1,4 @@
-## 2.3.0 (12 December 2016)
+## 2.3.0 & 2.3.1 (12 December 2016)
 * Add typings support for TypeScript
 
 ## 2.2.0 (28 October 2016)
