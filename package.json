@@ -25,7 +25,10 @@
   ],
   "author": "Evan Shortiss",
   "license": "MIT",
-  "files": ["lib/", "env-var.d.ts"],
+  "files": [
+    "lib/",
+    "env-var.d.ts"
+  ],
   "bugs": {
     "url": "https://github.com/evanshortiss/env-var/issues"
   },
