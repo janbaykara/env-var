@@ -1,5 +1,7 @@
+## 3.0.2 (19/10/17)
+* Restore support for use in browser based applications
 
-## 3.0.1 (13/10/17)
+## 3.0.1 (19/10/17)
 * Fix bug that caused default values to be ignored
 
 ## 3.0.0 (13/10/17)
