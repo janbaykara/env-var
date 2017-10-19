@@ -40,6 +40,14 @@ describe('env-var', function () {
     })
   })
 
+  describe('default values', function () {
+    it('should return the default', function () {
+      const ret = mod.get('XXX_NOT_DEFINED', 'default').asString()
+
+      expect(ret).to.equal('default')
+    })
+  })
+
   describe('#asString', function () {
     it('should return a string', function () {
       expect(mod.get('STRING').asString()).to.be.a('string')

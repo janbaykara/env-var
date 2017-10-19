@@ -1,3 +1,7 @@
+
+## 3.0.1 (13/10/17)
+* Fix bug that caused default values to be ignored
+
 ## 3.0.0 (13/10/17)
 * Public API no longer is a function, instead exposes two functions, `mock` and `get`
 * Drop support for Node.js versions less than 4.0
@@ -10,7 +14,7 @@
 * Use `standard` for code quality and formatting
 
 ## 2.4.3 (5/04/17)
-* Update with build, coverage, and version information badges.
+* Update with build, coverage, and version information badges
 
 ## 2.4.2 (19/12/2016)
 * Fix TypeScript definition file
