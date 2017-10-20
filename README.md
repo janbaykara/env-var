@@ -18,12 +18,12 @@ In the example below we read the environment variable *PARALLEL_LIMIT*, ensure
 it is set, and parse it to an integer.
 
 ```js
-var PARALLEL_LIMIT = env.get('PARALLEL_LIMIT').required().asIntPositive();
+const LIMIT = env.get('LIMIT').required().asIntPositive();
 ```
 
 Here's what each piece of this code means:
 
-1. If *PARALLEL_LIMIT* is not set _required()_ will raise an exception.
+1. If *LIMIT* is not set _required()_ will raise an exception.
 2. If it is set, but not a positive integer _asIntPositive()_ will raise an
 exception.
 3. If #1 and #2 do not raise an exception, the number will be returned as a
@@ -31,19 +31,17 @@ valid JavaScript number type.
 
 
 ## TypeScript
-To use with TypeScript, just import it like this:
+To use with TypeScript, just import and use the same as JavaScript:
 
 ```ts
 import * as env from 'env-var';
 
-const stringVar = env.get('STRING').required().asString();
+const LIMIT = env.get('LIMIT').required().asIntPositive();
 ```
 
 ## Overview
 Over time it became apparent that parsing environment variables is a
-repetitive task, and testing code that relies on them is cumbersome unless
-using an inversion of control system for declaring modules so we can inject a
-fake *process.env*.
+repetitive task, and testing code that relies on can be cumbersome.
 
 Take this example:
 
@@ -132,7 +130,8 @@ For example:
 const env = require('env-var')
 
 // Read PORT variable and ensure it's a positive integer. If it is not a
-// positive integer or is not set the process will exit with an error
+// positive integer or is not set the process will exit with an error (unless
+// you catch it using a try/catch or "uncaughtException" handler)
 const PORT = env.get('PORT').required().asIntPositive()
 
 app.listen(PORT)
@@ -318,6 +317,9 @@ and populate it with code following this structure:
  * @param {String}   environmentValue this is the string from process.env
  */
 module.exports = function numberZero (raiseError, environmentValue) {
+
+  // Your custom code should go here...below code is an example
+
   const val = parseInt(environmentValue)
 
   if (val === 0) {
@@ -328,8 +330,16 @@ module.exports = function numberZero (raiseError, environmentValue) {
 }
 ```
 
-The `env-var` module will auto load this new file and add it to the public
-exports with the name in camelcase format `asNumberZero`
+Next update the `accessors` Object in `getVariableAccessors()` in
+`lib/variable.js` to include your new module. The naming convention should be of
+the format "asTypeSubtype", so for our `number-zero` example it would be done
+like so:
+
+```js
+asNumberZero: generateAccessor(container, varName, defValue, require('./accessors/number-zero')),
+```
+
+Once you've done that, add some unit tests and use it like so:
 
 ```js
 // Uses your new function to ensure the SOME_NUMBER is the integer 0
