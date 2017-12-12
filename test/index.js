@@ -384,6 +384,14 @@ describe('env-var', function () {
       expect(mod.get('.NOPE.').asArray()).to.equal(undefined)
     })
 
+    it('should raise an error if set incorrectly', function () {
+      process.env.COMMA_ARRAY = ''
+
+      expect(() => {
+        mod.get('COMMA_ARRAY').asArray()
+      }).to.throw('should include values separated with the delimeter ","')
+    })
+
     it('should return an array that was split on commas', function () {
       expect(mod.get('COMMA_ARRAY').asArray()).to.deep.equal(['1', '2', '3'])
     })
