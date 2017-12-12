@@ -1,6 +1,6 @@
 {
   "name": "env-var",
-  "version": "3.0.2",
+  "version": "3.1.0",
   "description": "Solution for loading and sanatizing environment variables in node.js with correct typings",
   "main": "env-var.js",
   "typings": "env-var.d.ts",
@@ -55,7 +55,6 @@
   },
   "dependencies": {
     "@types/node": "~8.0.31",
-    "camelcase": "~4.1.0",
     "is-url": "~1.2.2"
   },
   "engines": {

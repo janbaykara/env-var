@@ -1,3 +1,7 @@
+## 3.1.0 (11/12/17)
+* Update typings to correctly handle default values for numeric types.
+* Ensure an error is thrown when `asArray` does not detect at least a single non-empty value.
+
 ## 3.0.2 (19/10/17)
 * Restore support for use in browser based applications
 

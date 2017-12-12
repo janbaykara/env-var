@@ -7,33 +7,33 @@ interface IPresentVariable {
   /**
    * Attempt to parse the variable to a float. Throws an exception if parsing fails.
    */
-  asFloat: () => number|undefined;
+  asFloat: () => number;
 
   /**
    * Performs the same task as asFloat(), but also verifies that the number is positive (greater than zero).
    */
-  asFloatPositive: () => number|undefined;
+  asFloatPositive: () => number;
 
   /**
    * Performs the same task as asFloat(), but also verifies that the number is negative (less than zero).
    */
-  asFloatNegative: () => number|undefined;
+  asFloatNegative: () => number;
 
   /**
    * Attempt to parse the variable to an integer. Throws an exception if parsing fails.
    * This is a strict check, meaning that if the process.env value is 1.2, an exception will be raised rather than rounding up/down.
    */
-  asInt: () => number|undefined;
+  asInt: () => number;
 
   /**
    * Performs the same task as asInt(), but also verifies that the number is positive (greater than zero).
    */
-  asIntPositive: () => number|undefined;
+  asIntPositive: () => number;
 
   /**
    * Performs the same task as asInt(), but also verifies that the number is negative (less than zero).
    */
-  asIntNegative: () => number|undefined;
+  asIntNegative: () => number;
 
   /**
    * Return the variable value as a String. Throws an exception if value is not a String.
