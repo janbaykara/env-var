@@ -1,3 +1,9 @@
+## 3.3.0 (26/06/18)
+* Add `asEnum` functionality
+
+## 3.2.0 (15/06/18)
+* Remove @types/node dependency
+
 ## 3.1.0 (11/12/17)
 * Update typings to correctly handle default values for numeric types.
 * Ensure an error is thrown when `asArray` does not detect at least a single non-empty value.

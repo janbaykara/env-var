@@ -189,7 +189,7 @@ The same as _asJson_ but checks that the data is a JSON Array, e.g [1,2].
 #### asJsonObject()
 The same as _asJson_ but checks that the data is a JSON Object, e.g {a: 1}.
 
-#### asArray([delimiter])
+#### asArray([delimiter: string])
 Reads an environment variable as a string, then splits it on each occurence of
 the specified _delimiter_. By default a comma is used as the delimiter. For
 example a var set to "1,2,3" would become ['1', '2', '3'].
@@ -239,6 +239,9 @@ const commaArray = env.get('COMMA_ARRAY').asArray();
 
 // Returns an array if defined, or undefined if not set
 const commaArray = env.get('DASH_ARRAY').asArray('-');
+
+// Returns the enum value if it's valid
+const enumVal = env.get('STRING').asEnum(['dev', 'test', 'live'])
 ```
 
 
@@ -301,8 +304,11 @@ describe('concat.js', function () {
 ```
 
 ## Contributors
-* @MikeyBurkman
+* @caccialdo
+* @hhravn
 * @itavy
+* @MikeyBurkman
+* @rmblstrp
 
 
 ## Contributing

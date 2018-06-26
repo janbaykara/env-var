@@ -75,16 +75,21 @@ interface IPresentVariable {
   asStrictBool: () => boolean;
 
   /**
-   * Verifies that the environment variable begin accessed is a valid URL and
+   * Verifies that the environment variable being accessed is a valid URL and
    * returns it as a string. Uses the "is-url" module
    */
   asUrlString: () => string;
 
   /**
-   * Verifies that the environment variable begin accessed is a valid URL and
+   * Verifies that the environment variable being accessed is a valid URL and
    * returns it as a core URL object. Uses the "is-url" module.
    */
   asUrlObject: () => Url;
+
+  /**
+   * Verifies that the var being accessed is one of the given values
+   */
+  asEnum: (validValues: string[]) => string;
 }
 
 interface IOptionalVariable {
@@ -164,16 +169,21 @@ interface IOptionalVariable {
   asStrictBool: () => boolean|undefined;
 
   /**
-   * Verifies that the environment variable begin accessed is a valid URL and
+   * Verifies that the environment variable being accessed is a valid URL and
    * returns it as a string. Uses the "is-url" module
    */
-  asUrlString: () => string;
+  asUrlString: () => string|undefined;
 
   /**
-   * Verifies that the environment variable begin accessed is a valid URL and
+   * Verifies that the environment variable being accessed is a valid URL and
    * returns it as a core URL object. Uses the "is-url" module.
    */
-  asUrlObject: () => Url;
+  asUrlObject: () => Url|undefined;
+
+  /**
+   * Verifies that the var being accessed is one of the given values
+   */
+  asEnum: (validValues: string[]) => string|undefined;
 }
 
 declare class EnvVarError extends Error {}
