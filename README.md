@@ -14,30 +14,19 @@ npm install env-var --save
 ```
 
 ## Usage
-In the example below we read the environment variable *PARALLEL_LIMIT*, ensure
-it is set, and parse it to an integer.
+In the example below we read the environment variable *DB_PASSWORD*, ensure
+it is set, convert it from base64, and get the resulting string: 
 
 ```js
 const env = require('env-var');
 
-const LIMIT = env.get('PARALLEL_LIMIT')
-  // Throw an error if the PARALLEL_LIMIT environment variable is not set
+const PASSWORD = env.get('DB_PASSWORD')
+  // Optional: Throws an error if the DB_PASSWORD variable is not set
   .required()
-  // Return a Number type if PARALLEL_LIMIT is 0 or greater, else throw an error
-  .asIntPositive();
-```
-
-It's also possible read from environment variables that are base64 encoded:
-
-```js
-const env = require('env-var');
-
-const dbpass = env.get('DB_PASSWORD')
-  .required()
-  // Convert the DB_PASSWORD value from base64 to a regular utf8 string
+  // Optional: Convert DB_PASSWORD from base64 to a regular utf8 string
   .convertFromBase64()
-  // Return the environment variable string after conversion from base64
-  .asString()
+  // Return a Number type if PARALLEL_LIMIT is 0 or greater, else throw an error
+  .asString();
 ```
 
 ## TypeScript / ES6
@@ -45,11 +34,21 @@ const dbpass = env.get('DB_PASSWORD')
 ```ts
 import * as env from 'env-var';
 
-const LIMIT = env.get('LIMIT').required().asIntPositive();
+// Read a PORT environment variable and verify it's a positive integer
+const PORT = env.get('PORT').required().asIntPositive();
 ```
 
-## Why
-Because instead of writing this:
+## Why use this?
+Because this...
+
+```js
+const env = require('env-var');
+
+var MAX_BATCH_SIZE = env.get('MAX_BATCH_SIZE').required().asInt();
+```
+
+...is nicer than this:
+
 
 ```js
 const assert = require('assert');
@@ -69,14 +68,6 @@ assert(
   typeof MAX_BATCH_SIZE === 'number' && !isNaN(MAX_BATCH_SIZE),
   'MAX_BATCH_SIZE env var must be a valid number'
 );
-```
-
-You only need to write this:
-
-```js
-const env = require('env-var');
-
-var MAX_BATCH_SIZE = env.get('MAX_BATCH_SIZE').required().asInt();
 ```
 
 ## API
@@ -144,11 +135,10 @@ app.listen(PORT)
 
 #### convertFromBase64()
 Sometimes environment variables need to be encoded as base64. You can use this
-function to convert them before reading their value like so:
+function to convert them before reading their value.
 
-For example if we run the script script below using the command
-
-`DB_PASSWORD=$(echo -n 'secret_password' | base64) node `
+For example if we run the script script below, using the command `DB_PASSWORD=
+$(echo -n 'secret_password' | base64) node`, we'd get the following results:
 
 ```js
 console.log(process.env.DB_PASSWORD) // prints "c2VjcmV0X3Bhc3N3b3Jk"
@@ -285,7 +275,6 @@ const enumVal = env.get('ENVIRONMENT').asEnum(['dev', 'test', 'live'])
 * @itavy
 * @MikeyBurkman
 * @rmblstrp
-
 
 ## Contributing
 Contributions are welcomed. If you'd like to discuss an idea open an issue, or a
