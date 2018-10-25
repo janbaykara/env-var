@@ -1,5 +1,6 @@
 ## 3.4.0 (24/10/18)
 * Add `convertFromBase64()` function
+* Enable Greenkeeper
 
 ## 3.3.0 (26/06/18)
 * Add `asEnum` functionality
