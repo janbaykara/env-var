@@ -5,7 +5,7 @@
 [![npm version](https://badge.fury.io/js/env-var.svg)](https://badge.fury.io/js/env-var)
 [![TypeScript](https://badges.frapsoft.com/typescript/version/typescript-next.svg?v=101)](https://github.com/ellerbrock/typescript-badges/)
 
-Verify, sanatize, and type coerce environment variables in Node.js
+Verification, sanatization, and type coercion for environment variables in Node.js
 
 ## Install
 
@@ -14,8 +14,7 @@ npm install env-var --save
 ```
 
 ## Usage
-In the example below we read the environment variable *DB_PASSWORD*, ensure
-it is set, convert it from base64, and get the resulting string: 
+In the example below we read the environment variable *DB_PASSWORD*
 
 ```js
 const env = require('env-var');
@@ -25,7 +24,7 @@ const PASSWORD = env.get('DB_PASSWORD')
   .required()
   // Optional: Convert DB_PASSWORD from base64 to a regular utf8 string
   .convertFromBase64()
-  // Return a Number type if PARALLEL_LIMIT is 0 or greater, else throw an error
+  // Required: Call asString (or other methods) to get the value of the variable
   .asString();
 ```
 
@@ -39,16 +38,15 @@ const PORT = env.get('PORT').required().asIntPositive();
 ```
 
 ## Why use this?
-Because this...
+Because this:
 
 ```js
 const env = require('env-var');
 
-var MAX_BATCH_SIZE = env.get('MAX_BATCH_SIZE').required().asInt();
+const MAX_BATCH_SIZE = env.get('MAX_BATCH_SIZE').required().asInt();
 ```
 
-...is nicer than this:
-
+Is nicer than this:
 
 ```js
 const assert = require('assert');
