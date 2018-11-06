@@ -270,9 +270,11 @@ const enumVal = env.get('ENVIRONMENT').asEnum(['dev', 'test', 'live'])
 
 ## Contributors
 * @caccialdo
+* @evanshortiss
 * @hhravn
 * @itavy
 * @MikeyBurkman
+* @pepakriz
 * @rmblstrp
 
 ## Contributing
