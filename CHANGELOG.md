@@ -1,4 +1,4 @@
-## 3.4.0 (06/11/18)
+## 3.4.1 (06/11/18)
 * Fix TypeScript definition for "asBoolStrict" function name
 
 ## 3.4.0 (24/10/18)

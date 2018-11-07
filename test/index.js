@@ -406,7 +406,7 @@ describe('env-var', function () {
     it('should return a JSON Object', function () {
       expect(
         mod.get('JSON_OBJECT').asJsonObject()
-      ).to.deep.equal({name: 'value'})
+      ).to.deep.equal({ name: 'value' })
     })
   })
 

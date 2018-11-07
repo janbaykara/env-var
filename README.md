@@ -2,8 +2,9 @@
 
 [![Travis CI](https://travis-ci.org/evanshortiss/env-var.svg?branch=master)](https://travis-ci.org/evanshortiss/env-var)
 [![Coverage Status](https://coveralls.io/repos/github/evanshortiss/env-var/badge.svg?branch=master)](https://coveralls.io/github/evanshortiss/env-var?branch=master)
-[![npm version](https://badge.fury.io/js/env-var.svg)](https://badge.fury.io/js/env-var)
-[![TypeScript](https://badges.frapsoft.com/typescript/code/typescript.svg?v=101)](https://github.com/ellerbrock/typescript-badges/)
+[![npm version](https://badge.fury.io/js/env-var.svg)](https://www.npmjs.com/package/env-var)
+[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-blue.svg)](http://www.typescriptlang.org/)
+[![npm downloads](https://img.shields.io/npm/dm/env-var.svg?style=flat)](https://www.npmjs.com/package/fastify)
 [![Greenkeeper badge](https://badges.greenkeeper.io/evanshortiss/env-var.svg)](https://greenkeeper.io/)
 
 Verification, sanatization, and type coercion for environment variables in Node.js
@@ -21,11 +22,11 @@ In the example below we read the environment variable *DB_PASSWORD*
 const env = require('env-var');
 
 const PASSWORD = env.get('DB_PASSWORD')
-  // Optional: Throws an error if the DB_PASSWORD variable is not set
+  // Throws an error if the DB_PASSWORD variable is not set (optional)
   .required()
-  // Optional: Convert DB_PASSWORD from base64 to a regular utf8 string
+  // Convert DB_PASSWORD from base64 to a regular utf8 string (optional)
   .convertFromBase64()
-  // Required: Call asString (or other methods) to get the value of the variable
+  // Call asString (or other methods) to get the variable value (required)
   .asString();
 ```
 
@@ -34,7 +35,8 @@ const PASSWORD = env.get('DB_PASSWORD')
 ```ts
 import * as env from 'env-var';
 
-// Read a PORT environment variable and verify it's a positive integer
+// Read a PORT environment variable and verify it's a positive integer.
+// If port is not set then we throw an error
 const PORT = env.get('PORT').required().asIntPositive();
 ```
 
@@ -47,7 +49,7 @@ const env = require('env-var');
 const MAX_BATCH_SIZE = env.get('MAX_BATCH_SIZE').required().asInt();
 ```
 
-Is nicer than this:
+Is cleaner than this:
 
 ```js
 const assert = require('assert');
