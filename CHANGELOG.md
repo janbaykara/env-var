@@ -1,3 +1,6 @@
+## 3.4.2 (06/11/18)
+* Fix README badge copy/paste error
+
 ## 3.4.1 (06/11/18)
 * Fix TypeScript definition for "asBoolStrict" function name
 
