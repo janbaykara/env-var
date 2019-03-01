@@ -1,5 +1,5 @@
 ## 3.5.0 (02/29/19)
-* Fix README badge copy/paste error
+* Update `required()` to support boolean paramter to bypass the check
 
 ## 3.4.2 (06/11/18)
 * Fix README badge copy/paste error
