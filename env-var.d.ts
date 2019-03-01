@@ -104,9 +104,10 @@ interface IOptionalVariable {
   convertFromBase64: () => IOptionalVariable
 
   /**
-   * Ensure the variable is set on process.env, if not an exception will be thrown.
+   * Ensures the variable is set on process.env, if not an exception will be thrown.
+   * Can pass false to bypass the check
    */
-  required: () => IPresentVariable;
+  required: (isRequired?: boolean) => IPresentVariable;
 
   /**
    * Attempt to parse the variable to a float. Throws an exception if parsing fails.

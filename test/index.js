@@ -355,6 +355,12 @@ describe('env-var', function () {
       expect(mod.get('JSON').required().asJson()).to.be.an('object')
     })
 
+    it('should not throw if required is passed a false argument', function () {
+      delete process.env.JSON
+
+      expect(mod.get('JSON').required(false).asJson()).to.equal(undefined)
+    })
+
     it('should throw an exception when required, but not set', function () {
       delete process.env.JSON
 
