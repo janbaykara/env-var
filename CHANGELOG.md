@@ -1,4 +1,4 @@
-## 4.0.0 (08/04/19)
+## 4.0.0 (09/04/19)
 * Rename `.env.mock()` to `env.from()`
 * Change module internals per issue #39
 * Update docs related to `env.mock`
