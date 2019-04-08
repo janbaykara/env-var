@@ -8,7 +8,7 @@
 [![Greenkeeper badge](https://badges.greenkeeper.io/evanshortiss/env-var.svg)](https://greenkeeper.io/)
 
 Verification, sanatization, and type coercion for environment variables in
-Node.js with full TypeScript support.
+Node.js. This is particularly useful in TypeScript environments.
 
 ## Install
 
@@ -34,14 +34,14 @@ const PASSWORD = env.get('DB_PASSWORD')
 const PORT = env.get('PORT', 5432).asIntPositive()
 ```
 
-## TypeScript / ES6
+## TypeScript
 
 ```ts
 import * as env from 'env-var';
 
-// Read a PORT environment variable and verify it's a positive integer.
-// If port is not set then we throw an error
-const PORT = env.get('PORT').required().asIntPositive();
+// Read a PORT environment variable and ensure it's a positive number
+// An EnvVarError will be thrown if the variable is not set, or is not a number
+const PORT: number = env.get('PORT').required().asIntPositive();
 ```
 
 ## Benefits
