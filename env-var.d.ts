@@ -216,10 +216,10 @@ interface IEnv {
   get (varName: string, defaultValue: string): IPresentVariable;
 
   /**
-   * Returns a mock env-var instance, where the given object is used for the environment variable mapping.
-   * Use this when writing unit tests.
+   * Returns a new env-var instance, where the given object is used for the environment variable mapping.
+   * Use this when writing unit tests or in environments outside node.js.
    */
-  mock(mockVars: {[varName: string]: string}): IEnv;
+  from(values: {[varName: string]: string}): IEnv;
 
   /**
    * This is the error type used to represent error returned by this module.

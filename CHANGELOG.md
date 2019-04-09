@@ -1,3 +1,8 @@
+## 4.0.0 (09/04/19)
+* Rename `.env.mock()` to `env.from()`
+* Change module internals per issue #39
+* Update docs related to `env.mock`
+
 ## 3.5.0 (02/29/19)
 * Update `required()` to support boolean paramter to bypass the check
 

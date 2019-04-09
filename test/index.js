@@ -438,37 +438,37 @@ describe('env-var', function () {
     })
   })
 
-  describe('#mock', function () {
-    var mockMod
+  describe('#from', function () {
+    var fromMod
 
     beforeEach(function () {
-      mockMod = mod.mock({
+      fromMod = mod.from({
         A_BOOL: 'true',
         A_STRING: 'blah'
       })
     })
 
-    it('should get a mock boolean', function () {
-      expect(mockMod.get('A_BOOL').required().asBool()).to.eql(true)
+    it('should get a from boolean', function () {
+      expect(fromMod.get('A_BOOL').required().asBool()).to.eql(true)
     })
 
-    it('should get a mock string', function () {
-      expect(mockMod.get('A_STRING').required().asString()).to.eql('blah')
+    it('should get a from string', function () {
+      expect(fromMod.get('A_STRING').required().asString()).to.eql('blah')
     })
 
     it('should get undefined for a missing un-required value', function () {
-      expect(mockMod.get('DONTEXIST').asString()).to.eql(undefined)
+      expect(fromMod.get('DONTEXIST').asString()).to.eql(undefined)
     })
 
     it('should throw an exception on a missing required value', function () {
       expect(function () {
-        mockMod.get('DONTEXIST').required().asJson()
+        fromMod.get('DONTEXIST').required().asJson()
       }).to.throw()
     })
 
-    it('should return the mock values object if no arguments', function () {
-      expect(mockMod.get()).to.have.property('A_BOOL', 'true')
-      expect(mockMod.get()).to.have.property('A_STRING', 'blah')
+    it('should return the from values object if no arguments', function () {
+      expect(fromMod.get()).to.have.property('A_BOOL', 'true')
+      expect(fromMod.get()).to.have.property('A_STRING', 'blah')
     })
   })
 })

@@ -7,7 +7,8 @@
 [![npm downloads](https://img.shields.io/npm/dm/env-var.svg?style=flat)](https://www.npmjs.com/package/env-var)
 [![Greenkeeper badge](https://badges.greenkeeper.io/evanshortiss/env-var.svg)](https://greenkeeper.io/)
 
-Verification, sanatization, and type coercion for environment variables in Node.js
+Verification, sanatization, and type coercion for environment variables in
+Node.js. This is particularly useful in TypeScript environments.
 
 ## Install
 
@@ -28,28 +29,31 @@ const PASSWORD = env.get('DB_PASSWORD')
   .convertFromBase64()
   // Call asString (or other methods) to get the variable value (required)
   .asString();
+
+// Read in a port or use a default value of 5432
+const PORT = env.get('PORT', 5432).asIntPositive()
 ```
 
-## TypeScript / ES6
+## TypeScript
 
 ```ts
 import * as env from 'env-var';
 
-// Read a PORT environment variable and verify it's a positive integer.
-// If port is not set then we throw an error
-const PORT = env.get('PORT').required().asIntPositive();
+// Read a PORT environment variable and ensure it's a positive number
+// An EnvVarError will be thrown if the variable is not set, or is not a number
+const PORT: number = env.get('PORT').required().asIntPositive();
 ```
 
-## Why use this?
-Because this:
+## Benefits
+Fail fast if your environment is misconfigured. Also, this code:
 
 ```js
 const env = require('env-var');
 
-const MAX_BATCH_SIZE = env.get('MAX_BATCH_SIZE').required().asInt();
+const MAX_BATCH_SIZE = env.get('MAX_BATCH_SIZE').required().asIntPositive();
 ```
 
-Is cleaner than this:
+Is cleaner than this code:
 
 ```js
 const assert = require('assert');
@@ -64,10 +68,16 @@ assert.notEqual(
 // Read the var, and use parseInt to make it a number
 const MAX_BATCH_SIZE = parseInt(process.env.MAX_BATCH_SIZE, 10);
 
-// Check the var is a valid number, if not throw
+// Verify we have a valid number, if not throw
 assert(
   typeof MAX_BATCH_SIZE === 'number' && !isNaN(MAX_BATCH_SIZE),
   'MAX_BATCH_SIZE env var must be a valid number'
+);
+
+// Verify the number is positive
+assert(
+  MAX_BATCH_SIZE > 0,
+  'MAX_BATCH_SIZE must be a positive number'
 );
 ```
 
@@ -85,31 +95,22 @@ const limit = env.get('SOME_LIMIT').asIntPositive()
 // #2 - Return the requested variable, or use the given default if it isn't set
 const limit = env.get('SOME_LIMIT', '10').asIntPositive()
 
-// #3 - Return the environment object (process.env)
+// #3 - Return the environment object (process.env by default - see env.from() docs for more)
 const allvars = env.get()
 ```
 
-
-### env.EnvVarError
-This is the error class used to represent errors raised by this module. Sample
-usage:
+### from(values)
+This function is useful if you're not in a typical Node.js environment, or for
+testing. It allows you to generate an env-var instance that reads from the
+given `values` instead of the default `process.env`.
 
 ```js
-const env = require('env-var')
+const env = require('env-var').from({
+  API_BASE_URL: 'https://my.api.com/'
+})
 
-try {
-  // will throw if you have not set this variable
-  env.get('MISSING_VARIABLE').required().asString()
-
-  // if catch error is set, we'll end up throwing here instead
-  throw new Error('some other error')
-} catch (e) {
-  if (e instanceof env.EnvVarError) {
-    console.log('we got an env-var error', e)
-  } else {
-    console.log('we got some error that wasn\'t an env-var error', e)
-  }
-}
+// apiUrl will be 'https://my.api.com/'
+const apiUrl = mockedEnv.get('API_BASE_URL').asUrlString()
 ```
 
 ### variable
@@ -221,18 +222,27 @@ Verifies that the variable is a valid URL string, then parses it using
 `url.parse` from the Node.js core `url` module and returns the parsed Object.
 See the [Node.js docs](https://nodejs.org/api/url.html#url_url_parse_urlstring_parsequerystring_slashesdenotehost) for more info
 
-#### mock(valuesMap)
-Can be used during testing for mocking of environment variables.
+
+### env.EnvVarError
+This is the error class used to represent errors raised by this module. Sample
+usage:
 
 ```js
 const env = require('env-var')
 
-const mockedEnv = env.mock({
-  API_BASE_URL: 'https://my.api.com/'
-})
+try {
+  // will throw if you have not set this variable
+  env.get('MISSING_VARIABLE').required().asString()
 
-// apiUrl will be 'https://my.api.com/'
-const apiUrl = mockedEnv.get('API_BASE_URL').asUrlString()
+  // if catch error is set, we'll end up throwing here instead
+  throw new Error('some other error')
+} catch (e) {
+  if (e instanceof env.EnvVarError) {
+    console.log('we got an env-var error', e)
+  } else {
+    console.log('we got some error that wasn\'t an env-var error', e)
+  }
+}
 ```
 
 ## Examples
