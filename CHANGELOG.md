@@ -1,3 +1,6 @@
+## 4.0.1 (24/05/19)
+* Add node `process.env` typings to `env.from`
+
 ## 4.0.0 (09/04/19)
 * Rename `.env.mock()` to `env.from()`
 * Change module internals per issue #39
