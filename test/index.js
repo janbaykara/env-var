@@ -438,6 +438,29 @@ describe('env-var', function () {
     })
   })
 
+  describe('#asPortNumber', function () {
+    it('should raise an error for ports less than 0', function () {
+      process.env.PORT_NUMBER = '-2'
+
+      expect(function () {
+        mod.get('PORT_NUMBER').asPortNumber()
+      }).to.throw('should be a positive integer, but was "-2"')
+    })
+    it('should raise an error for ports greater than 65535', function () {
+      process.env.PORT_NUMBER = '700000'
+
+      expect(function () {
+        mod.get('PORT_NUMBER').asPortNumber()
+      }).to.throw('cannot assign a port number greater than 65535, but was "700000"')
+    })
+
+    it('should return a number for valid ports', function () {
+      process.env.PORT_NUMBER = '8080'
+
+      expect(mod.get('PORT_NUMBER').asPortNumber()).to.equal(8080)
+    })
+  })
+
   describe('#from', function () {
     var fromMod
 

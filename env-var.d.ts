@@ -10,6 +10,11 @@ interface IPresentVariable {
   convertFromBase64: () => IPresentVariable
 
   /**
+   * Converts a number to an integer and verifies it's in port ranges 0-65535
+   */
+  asPortNumber: () => number
+
+  /**
    * Attempt to parse the variable to a float. Throws an exception if parsing fails.
    */
   asFloat: () => number;
@@ -108,6 +113,11 @@ interface IOptionalVariable {
    * Can pass false to bypass the check
    */
   required: (isRequired?: boolean) => IPresentVariable;
+
+  /**
+   * Converts a number to an integer and verifies it's in port ranges 0-65535
+   */
+  asPortNumber: () => number|undefined
 
   /**
    * Attempt to parse the variable to a float. Throws an exception if parsing fails.
