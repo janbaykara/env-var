@@ -63,8 +63,8 @@ complex to understand as [demonstrated here](https://gist.github.com/evanshortis
 ### Structure:
 
 * module (env-var)
-  * [from()](#fromvalues)
   * [EnvVarError()](#envvarerror)
+  * [from()](#fromvalues)
   * [get()](#getvarname-default)
     * [variable](#variable)
       * [required()](#requiredisrequired--true)
@@ -87,36 +87,6 @@ complex to understand as [demonstrated here](https://gist.github.com/evanshortis
       * [asUrlObject()](#asurlobject)
       * [asUrlString()](#asurlstring)
 
-### get([varname, [default]])
-You can call this function 3 different ways:
-
-```js
-const env = require('env-var')
-
-// #1 - Return the requested variable (we're also checking it's a positive int)
-const limit = env.get('SOME_LIMIT').asIntPositive()
-
-// #2 - Return the requested variable, or use the given default if it isn't set
-const limit = env.get('SOME_LIMIT', '10').asIntPositive()
-
-// #3 - Return the environment object (process.env by default - see env.from() docs for more)
-const allvars = env.get()
-```
-
-### from(values)
-This function is useful if you're not in a typical Node.js environment, or for
-testing. It allows you to generate an env-var instance that reads from the
-given `values` instead of the default `process.env`.
-
-```js
-const env = require('env-var').from({
-  API_BASE_URL: 'https://my.api.com/'
-})
-
-// apiUrl will be 'https://my.api.com/'
-const apiUrl = mockedEnv.get('API_BASE_URL').asUrlString()
-```
-
 ### EnvVarError()
 This is the error class used to represent errors raised by this module. Sample
 usage:
@@ -138,6 +108,36 @@ try {
     console.log('we got some error that wasn\'t an env-var error', e)
   }
 }
+```
+
+### from(values)
+This function is useful if you're not in a typical Node.js environment, or for
+testing. It allows you to generate an env-var instance that reads from the
+given `values` instead of the default `process.env`.
+
+```js
+const env = require('env-var').from({
+  API_BASE_URL: 'https://my.api.com/'
+})
+
+// apiUrl will be 'https://my.api.com/'
+const apiUrl = mockedEnv.get('API_BASE_URL').asUrlString()
+```
+
+### get([varname, [default]])
+You can call this function 3 different ways:
+
+```js
+const env = require('env-var')
+
+// #1 - Return the requested variable (we're also checking it's a positive int)
+const limit = env.get('SOME_LIMIT').asIntPositive()
+
+// #2 - Return the requested variable, or use the given default if it isn't set
+const limit = env.get('SOME_LIMIT', '10').asIntPositive()
+
+// #3 - Return the environment object (process.env by default - see env.from() docs for more)
+const allvars = env.get()
 ```
 
 ### variable
