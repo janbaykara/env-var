@@ -1,3 +1,7 @@
+## 4.1.0 (11/06/19)
+* Add `asPortNumber()` function
+* Update documentation structure
+
 ## 4.0.1 (24/05/19)
 * Add node `process.env` typings to `env.from`
 

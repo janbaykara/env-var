@@ -8,16 +8,23 @@
 [![Greenkeeper badge](https://badges.greenkeeper.io/evanshortiss/env-var.svg)](https://greenkeeper.io/)
 
 Verification, sanatization, and type coercion for environment variables in
-Node.js. This is particularly useful in TypeScript environments.
+Node.js. Particularly useful in TypeScript environments.
 
 ## Install
 
+### npm
 ```
 npm install env-var --save
 ```
 
+### yarn
+```
+yarn add env-var
+```
+
 ## Usage
-In the example below we read the environment variable *DB_PASSWORD*
+In the example below we read the environment variable *DB_PASSWORD* and call
+some functions to verify it satisfies our program's needs.
 
 ```js
 const env = require('env-var');
@@ -30,8 +37,9 @@ const PASSWORD = env.get('DB_PASSWORD')
   // Call asString (or other methods) to get the variable value (required)
   .asString();
 
-// Read in a port or use a default value of 5432
-const PORT = env.get('PORT', 5432).asIntPositive()
+// Read in a port (checks that PORT is in the raneg 0 to 65535) or use a
+// default value of 5432 instead
+const PORT = env.get('PORT', 5432).asPortNumber()
 ```
 
 ## TypeScript
@@ -45,58 +53,61 @@ const PORT: number = env.get('PORT').required().asIntPositive();
 ```
 
 ## Benefits
-Fail fast if your environment is misconfigured. Also, this code:
-
-```js
-const env = require('env-var');
-
-const MAX_BATCH_SIZE = env.get('MAX_BATCH_SIZE').required().asIntPositive();
-```
-
-Is cleaner than this code:
-
-```js
-const assert = require('assert');
-
-// Our program requires this var to be set
-assert.notEqual(
-  process.env.MAX_BATCH_SIZE,
-  undefined,
-  'MAX_BATCH_SIZE environment variable must be set'
-);
-
-// Read the var, and use parseInt to make it a number
-const MAX_BATCH_SIZE = parseInt(process.env.MAX_BATCH_SIZE, 10);
-
-// Verify we have a valid number, if not throw
-assert(
-  typeof MAX_BATCH_SIZE === 'number' && !isNaN(MAX_BATCH_SIZE),
-  'MAX_BATCH_SIZE env var must be a valid number'
-);
-
-// Verify the number is positive
-assert(
-  MAX_BATCH_SIZE > 0,
-  'MAX_BATCH_SIZE must be a positive number'
-);
-```
+Fail fast if your environment is misconfigured. Also,
+[this code](https://gist.github.com/evanshortiss/75d936665a2a240fa1966770a85fb137) without
+`env-var` would require multiple `assert` calls, other logic, and be more
+complex to understand as [demonstrated here](https://gist.github.com/evanshortiss/0cb049bf676b6138d13384671dad750d).
 
 ## API
 
-### env.get([varname, [default]])
-You can call this function 3 different ways:
+### Structure:
+
+* module (env-var)
+  * [EnvVarError()](#envvarerror)
+  * [from()](#fromvalues)
+  * [get()](#getvarname-default)
+    * [variable](#variable)
+      * [required()](#requiredisrequired--true)
+      * [covertFromBase64()](#convertfrombase64)
+      * [asArray()](#asarraydelimiter-string)
+      * [asBoolStrict()](#asBoolStrict)
+      * [asBool()](#asbool)
+      * [asPortNumer()](#asportnumber)
+      * [asEnum()](#asenumvalidvalues-string)
+      * [asFloatNegative()](#asfloatnegative)
+      * [asFloatPositive()](#asfloatpositive)
+      * [asFloat()](#asfloat)
+      * [asIntNegative()](#asintnegative)
+      * [asIntPositive()](#asintpositive)
+      * [asInt()](#asint)
+      * [asJsonArray()](#asjsonarray)
+      * [asJsonObject()](#asjsonobject)
+      * [asJson()](#asjson)
+      * [asString()](#asstring)
+      * [asUrlObject()](#asurlobject)
+      * [asUrlString()](#asurlstring)
+
+### EnvVarError()
+This is the error class used to represent errors raised by this module. Sample
+usage:
 
 ```js
 const env = require('env-var')
+let value = null
 
-// #1 - Return the requested variable (we're also checking it's a positive int)
-const limit = env.get('SOME_LIMIT').asIntPositive()
+try {
+  // will throw if you have not set this variable
+  value = env.get('MISSING_VARIABLE').required().asString()
 
-// #2 - Return the requested variable, or use the given default if it isn't set
-const limit = env.get('SOME_LIMIT', '10').asIntPositive()
-
-// #3 - Return the environment object (process.env by default - see env.from() docs for more)
-const allvars = env.get()
+  // if catch error is set, we'll end up throwing here instead
+  throw new Error('some other error')
+} catch (e) {
+  if (e instanceof env.EnvVarError) {
+    console.log('we got an env-var error', e)
+  } else {
+    console.log('we got some error that wasn\'t an env-var error', e)
+  }
+}
 ```
 
 ### from(values)
@@ -111,6 +122,22 @@ const env = require('env-var').from({
 
 // apiUrl will be 'https://my.api.com/'
 const apiUrl = mockedEnv.get('API_BASE_URL').asUrlString()
+```
+
+### get([varname, [default]])
+You can call this function 3 different ways:
+
+```js
+const env = require('env-var')
+
+// #1 - Return the requested variable (we're also checking it's a positive int)
+const limit = env.get('SOME_LIMIT').asIntPositive()
+
+// #2 - Return the requested variable, or use the given default if it isn't set
+const limit = env.get('SOME_LIMIT', '10').asIntPositive()
+
+// #3 - Return the environment object (process.env by default - see env.from() docs for more)
+const allvars = env.get()
 ```
 
 ### variable
@@ -154,6 +181,11 @@ console.log(process.env.DB_PASSWORD) // prints "c2VjcmV0X3Bhc3N3b3Jk"
 // dbpass will contain the value "secret_password"
 const dbpass = env.get('DB_PASSWORD').convertFromBase64().asString()
 ```
+
+#### asPortNumber()
+Converts the value of the environment variable to a string and verifies it's
+within the valid port range of 0-65535. As a result well known ports are
+considered valid by this function.
 
 #### asEnum(validValues: string[])
 Converts the value to a string, and matches against the list of valid values.
@@ -221,29 +253,6 @@ Verifies that the variable is a valid URL string and returns that string. Uses
 Verifies that the variable is a valid URL string, then parses it using
 `url.parse` from the Node.js core `url` module and returns the parsed Object.
 See the [Node.js docs](https://nodejs.org/api/url.html#url_url_parse_urlstring_parsequerystring_slashesdenotehost) for more info
-
-
-### env.EnvVarError
-This is the error class used to represent errors raised by this module. Sample
-usage:
-
-```js
-const env = require('env-var')
-
-try {
-  // will throw if you have not set this variable
-  env.get('MISSING_VARIABLE').required().asString()
-
-  // if catch error is set, we'll end up throwing here instead
-  throw new Error('some other error')
-} catch (e) {
-  if (e instanceof env.EnvVarError) {
-    console.log('we got an env-var error', e)
-  } else {
-    console.log('we got some error that wasn\'t an env-var error', e)
-  }
-}
-```
 
 ## Examples
 
