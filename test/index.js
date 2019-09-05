@@ -505,5 +505,46 @@ describe('env-var', function () {
       expect(fromMod.get()).to.have.property('A_BOOL', 'true')
       expect(fromMod.get()).to.have.property('A_STRING', 'blah')
     })
+
+    describe(':extraAccessors', function () {
+      it('should add custom accessors to subsequent gotten values', function () {
+        const fromMod = mod.from({ STRING: 'Hello, world!' }, {
+          asShout: function (value) {
+            return value.toUpperCase()
+          }
+        })
+
+        var gotten = fromMod.get('STRING')
+
+        expect(gotten).to.have.property('asShout')
+        expect(gotten.asShout()).to.equal('HELLO, WORLD!')
+      })
+
+      it('should allow overriding existing accessors', function () {
+        const fromMod = mod.from({ STRING: 'Hello, world!' }, {
+          asString: function (value) {
+            // https://stackoverflow.com/a/959004
+            return value.split('').reverse().join('')
+          }
+        })
+
+        expect(fromMod.get('STRING').asString()).to.equal('!dlrow ,olleH')
+      })
+
+      it('should not attach accessors to other env instances', function () {
+        const fromMod = mod.from({ STRING: 'Hello, world!' }, {
+          asNull: function (value) {
+            return null
+          }
+        })
+
+        var otherMod = mod.from({
+          STRING: 'Hola, mundo!'
+        })
+
+        expect(fromMod.get('STRING')).to.have.property('asNull')
+        expect(otherMod.get('STRING')).not.to.have.property('asNull')
+      })
+    })
   })
 })
