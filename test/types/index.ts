@@ -76,7 +76,7 @@ function test () {
   // URLS
   process.env.URL_STRING = 'http://google.com/'
 
-  assert.deepEqual(env.get('URL_STRING').asUrlObject(), new URL(process.env.URL_STRING))
+  assert.deepEqual(env.get('URL_STRING').asUrlObject(), new url.URL(process.env.URL_STRING))
   assert.equal(env.get('URL_STRING').asUrlString(), 'http://google.com/')
 
   // FROM
