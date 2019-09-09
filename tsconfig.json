@@ -4,6 +4,8 @@
     "noImplicitAny": true,
     "target": "es5",
     "moduleResolution": "node",
-    "skipLibCheck": true
-  }
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "files": ["test/types/index.ts"]
 }
