@@ -207,9 +207,9 @@ interface IOptionalVariable {
   asEnum: (validValues: string[]) => string|undefined;
 }
 
-declare class EnvVarError extends Error {}
+export class EnvVarError extends Error {}
 
-interface IEnv {
+interface IEnv<PresentVariable, OptionalVariable> {
   /**
    * Returns an object containing all current environment variables
    */
@@ -218,18 +218,21 @@ interface IEnv {
   /**
    * Gets an environment variable that is possibly not set to a value
    */
-  get (varName: string): IOptionalVariable;
+  get (varName: string): OptionalVariable;
 
   /**
    * Gets an environment variable, using the default value if it is not already set
    */
-  get (varName: string, defaultValue: string): IPresentVariable;
+  get (varName: string, defaultValue: string): PresentVariable;
 
   /**
    * Returns a new env-var instance, where the given object is used for the environment variable mapping.
    * Use this when writing unit tests or in environments outside node.js.
    */
-  from(values: NodeJS.ProcessEnv): IEnv;
+  from<T extends Extensions, K extends keyof T>(values: NodeJS.ProcessEnv, extensions?: T): IEnv<
+    IPresentVariable & Record<K, (...args: any[]) => ReturnType<T[K]>>,
+    IOptionalVariable & Record<K, (...args: any[]) => ReturnType<T[K]>|undefined>
+  >;
 
   /**
    * This is the error type used to represent error returned by this module.
@@ -238,5 +241,16 @@ interface IEnv {
   EnvVarError: EnvVarError
 }
 
-declare const env: IEnv;
-export = env;
+export type Extensions = {
+  [key: string]: ExtensionFn<any>
+}
+export type RaiseErrorFn = (error: string) => void
+export type ExtensionFn<T> = (value: string, ...args: any[]) => T
+
+export function get(): {[varName: string]: string}
+export function get(varName: string): IOptionalVariable;
+export function get(varName: string, defaultValue: string): IPresentVariable;
+export function from<T extends Extensions, K extends keyof T>(values: NodeJS.ProcessEnv, extensions?: T): IEnv<
+  IPresentVariable & Record<K, (...args: any[]) => ReturnType<T[K]>>,
+  IOptionalVariable & Record<K, (...args: any[]) => ReturnType<T[K]>|undefined>
+>;

@@ -222,6 +222,34 @@ let validEmail = env.get('ADMIN').checkEmail()
 let invalidEmail = env.get('ADMIN').checkEmail('github.com')
 ```
 
+This feature is also available for TypeScript users. The `ExtensionFn` type is
+expoed to help in the creation of these new accessors.
+
+```ts
+import { from, ExtensionFn, EnvVarError } from 'env-var'
+
+// Environment variable that we will use for this example:
+process.env.ADMIN = 'admin@example.com'
+
+const checkEmail: ExtensionFn<string> = (value) => {
+  const split = String(value).split('@')
+
+  // Validating email addresses is hard.
+  if (split.length !== 2) {
+    throw new Error('must contain exactly one "@"')
+  }
+
+  return value
+}
+
+const env = from(process.env, {
+  checkEmail
+})
+
+// Returns the email string if it's valid, otherwise it will throw
+env.get('ADMIN').checkEmail()
+```
+
 ### get([varname, [default]])
 You can call this function 3 different ways:
 
