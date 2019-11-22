@@ -1,3 +1,6 @@
+## 5.2.0 (22/11/19)
+* The `required()` function now verifies the variable is not an empty string
+
 ## 5.1.0 (09/09/19)
 * Ability to add custom accessors in PR #72 (thanks @todofixthis)
 * Improved TypeScript tests
