@@ -1,4 +1,4 @@
-## 6.0.0 (09/01/20)
+## 6.0.0 (12/02/20)
 * Add support for setting an example value via the `example(string)` function.
 * Passing default values is now performed using the `default(string)` function.
 * Defer checks for `required()` until an accessor such as `asString()` is invoked.
