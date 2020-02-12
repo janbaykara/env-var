@@ -10,6 +10,24 @@ interface IPresentVariable {
   convertFromBase64: () => IPresentVariable
 
   /**
+   * Provide an example value that can be used in error output if the variable
+   * is not set, or is set to an invalid value
+   */
+  example: (example: string) => IPresentVariable
+
+  /**
+   * Set a default value for this variable. This will be used if a value is not
+   * set in the process environment
+   */
+  default: (value: string) => IPresentVariable;
+
+  /**
+   * Ensures the variable is set on process.env. If it's not set an exception
+   * will be thrown. Can pass false to bypass the check.
+   */
+  required: (isRequired?: boolean) => IPresentVariable;
+
+  /**
    * Converts a number to an integer and verifies it's in port ranges 0-65535
    */
   asPortNumber: () => number
@@ -104,12 +122,24 @@ interface IPresentVariable {
 
 interface IOptionalVariable {
   /**
-   * Converts a bas64 environment variable to ut8
+   * Decodes a base64-encoded environment variable
    */
-  convertFromBase64: () => IOptionalVariable
+  convertFromBase64: () => IOptionalVariable;
 
   /**
-   * Ensures the variable is set on process.env, if not an exception will be thrown.
+   * Provide an example value that can be used in error output if the variable
+   * is not set, or is set to an invalid value
+   */
+  example: (value: string) => IOptionalVariable;
+
+  /**
+   * Set a default value for this variable. This will be used if a value is not
+   * set in the process environment
+   */
+  default: (value: string) => IPresentVariable;
+
+  /**
+   * Ensures the variable is set on process.env. If it's not set an exception will be thrown.
    * Can pass false to bypass the check
    */
   required: (isRequired?: boolean) => IPresentVariable;
@@ -221,11 +251,6 @@ interface IEnv<PresentVariable, OptionalVariable> {
   get (varName: string): OptionalVariable;
 
   /**
-   * Gets an environment variable, using the default value if it is not already set
-   */
-  get (varName: string, defaultValue: string): PresentVariable;
-
-  /**
    * Returns a new env-var instance, where the given object is used for the environment variable mapping.
    * Use this when writing unit tests or in environments outside node.js.
    */
@@ -249,7 +274,6 @@ export type ExtensionFn<T> = (value: string, ...args: any[]) => T
 
 export function get(): {[varName: string]: string}
 export function get(varName: string): IOptionalVariable;
-export function get(varName: string, defaultValue: string): IPresentVariable;
 export function from<T extends Extensions, K extends keyof T>(values: NodeJS.ProcessEnv, extensions?: T): IEnv<
   IPresentVariable & Record<K, (...args: any[]) => ReturnType<T[K]>>,
   IOptionalVariable & Record<K, (...args: any[]) => ReturnType<T[K]>|undefined>
