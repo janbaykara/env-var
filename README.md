@@ -17,7 +17,7 @@ Node.js. Supports TypeScript!
 <br>
 </div>
 
-* 🏋 Lightweight, at just 4.2kB when minified
+* 🏋 Lightweight, at just ~4.7kB when minified with zero dependencies
 * 🧹 Cleaner code, as [shown here](https://gist.github.com/evanshortiss/0cb049bf676b6138d13384671dad750d)
 * 🚫 [Fail fast](https://en.wikipedia.org/wiki/Fail-fast) if your environment is misconfigured
 * 👩‍💻 Friendly error messages and example values improve developer experience
@@ -74,9 +74,9 @@ const PORT: number = env.get('PORT').required().asIntPositive();
 ## Usage with dotenv
 
 There is no tight coupling between [env-var](https://www.npmjs.com/package/env-var)
-[dotenv](https://www.npmjs.com/package/dotenv). Just `npm install dotenv` and
-use it whatever way you're used to. This loose coupling is a good thing since
-it reduces package bloat - only install what you need!
+and [dotenv](https://www.npmjs.com/package/dotenv). Just `npm install dotenv`
+and use it whatever way you're used to. This loose coupling is a good thing
+since it reduces package bloat - only install what you need!
 
 You can use `dotenv` with `env-var` via a `require()` calls in your code or
 preloading it with the `--require` or `-r` flag in the `node` CLI.

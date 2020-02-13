@@ -7,6 +7,7 @@
 * Passing default values is now performed using the `default(string)` function.
 * Defer checks for `required()` until an accessor such as `asString()` is invoked.
 * Fix typings issue where `required()` was undefined on a `IPresentVariable`.
+* Improve error message output.
 
 Migration from 5.x to 6.0.0 should be smooth. Change any instance of
 `env.get(target, default)` to `env.get(target).default(default)`. For example:
