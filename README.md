@@ -17,7 +17,7 @@ Node.js. Supports TypeScript!
 <br>
 </div>
 
-* 🏋 Lightweight, at just ~4.7kB when minified with zero dependencies
+* 🏋 Lightweight. Zero dependencies and just ~4.7kB when minified!
 * 🧹 Cleaner code, as [shown here](https://gist.github.com/evanshortiss/0cb049bf676b6138d13384671dad750d)
 * 🚫 [Fail fast](https://en.wikipedia.org/wiki/Fail-fast) if your environment is misconfigured
 * 👩‍💻 Friendly error messages and example values improve developer experience
