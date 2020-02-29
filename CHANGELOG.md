@@ -1,4 +1,8 @@
 
+## 6.0.2 (29/02/20)
+* Fix `default()` so that it correctly returns an empty string value if provided.
+* README improvement by @joh-klein for positive/negative number parsing rules.
+
 ## 6.0.1 (12/02/20)
 * Fix typings for the `default(value)` function.
 

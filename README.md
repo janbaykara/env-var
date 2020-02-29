@@ -522,48 +522,9 @@ env.get('ADMIN').asEmail()
 ```
 
 ## Contributing
-Contributions are welcomed. If you'd like to discuss an idea open an issue, or a
-PR with an initial implementation.
-
-If you want to add a new global accessor add a file to `lib/accessors`, with
-the name of the type e.g add a file named `number-zero.js` into that folder
-and populate it with code following this structure:
-
-```js
-/**
- * Validate that the environment value is an integer and equals zero.
- * This is a strange example, but hopefully demonstrates the idea.
- * @param {String}   environmentValue this is the string from process.env
- */
-module.exports = function numberZero (environmentValue) {
-
-  // Your custom code should go here...below code is an example
-
-  const val = parseInt(environmentValue)
-
-  if (val === 0) {
-    return ret;
-  } else {
-    throw new Error('should be zero')
-  }
-}
-```
-
-Next update the `accessors` Object in `getVariableAccessors()` in
-`lib/variable.js` to include your new module. The naming convention should be of
-the format "asTypeSubtype", so for our `number-zero` example it would be done
-like so:
-
-```js
-asNumberZero: generateAccessor(container, varName, defValue, require('./accessors/number-zero')),
-```
-
-Once you've done that, add some unit tests and use it like so:
-
-```js
-// Uses your new function to ensure the SOME_NUMBER is the integer 0
-env.get('SOME_NUMBER').asNumberZero()
-```
+Contributions are welcomed and discussed in the `CONTRIBUTING.md` file in this
+repo. If you'd like to discuss an idea open an issue, or a PR with an initial
+implementation.
 
 ## Contributors
 * @caccialdo
@@ -571,6 +532,7 @@ env.get('SOME_NUMBER').asNumberZero()
 * @gabrieloczkowski
 * @hhravn
 * @itavy
+* @joh-klein
 * @MikeyBurkman
 * @pepakriz
 * @rmblstrp
