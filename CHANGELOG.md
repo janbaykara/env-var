@@ -1,4 +1,4 @@
-## 6.0.2 (03/03/20)
+## 6.0.3 (03/03/20)
 * Fix typings to support `required()`, `convertFromBase64()`, etc. with `ExtensionFn`.
 
 ## 6.0.2 (29/02/20)
