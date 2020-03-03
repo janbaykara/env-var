@@ -1,3 +1,5 @@
+## 6.0.2 (03/03/20)
+* Fix typings to support `required()`, `convertFromBase64()`, etc. with `ExtensionFn`.
 
 ## 6.0.2 (29/02/20)
 * Fix `default()` so that it correctly returns an empty string value if provided.
