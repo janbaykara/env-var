@@ -3,29 +3,29 @@
 
 import { Url } from 'url';
 
-interface IPresentVariable {
+interface IPresentVariable<Extensions> {
   /**
    * Converts a bas64 environment variable to ut8
    */
-  convertFromBase64: () => IPresentVariable
+  convertFromBase64: () => IPresentVariable<Extensions> & Extensions
 
   /**
    * Provide an example value that can be used in error output if the variable
    * is not set, or is set to an invalid value
    */
-  example: (example: string) => IPresentVariable
+  example: (example: string) => IPresentVariable<Extensions> & Extensions
 
   /**
    * Set a default value for this variable. This will be used if a value is not
    * set in the process environment
    */
-  default: (value: string|number|Record<string, any>|Array<any>) => IPresentVariable;
+  default: (value: string|number|Record<string, any>|Array<any>) => IPresentVariable<Extensions> & Extensions;
 
   /**
    * Ensures the variable is set on process.env. If it's not set an exception
    * will be thrown. Can pass false to bypass the check.
    */
-  required: (isRequired?: boolean) => IPresentVariable;
+  required: (isRequired?: boolean) => IPresentVariable<Extensions> & Extensions;
 
   /**
    * Converts a number to an integer and verifies it's in port ranges 0-65535
@@ -120,29 +120,29 @@ interface IPresentVariable {
   asEnum: (validValues: string[]) => string;
 }
 
-interface IOptionalVariable {
+interface IOptionalVariable<Extensions> {
   /**
    * Decodes a base64-encoded environment variable
    */
-  convertFromBase64: () => IOptionalVariable;
+  convertFromBase64: () => IOptionalVariable<Extensions> & Extensions;
 
   /**
    * Provide an example value that can be used in error output if the variable
    * is not set, or is set to an invalid value
    */
-  example: (value: string) => IOptionalVariable;
+  example: (value: string) => IOptionalVariable<Extensions> & Extensions;
 
   /**
    * Set a default value for this variable. This will be used if a value is not
    * set in the process environment
    */
-  default: (value: string|number|Record<string, any>|Array<any>) => IPresentVariable;
+  default: (value: string|number|Record<string, any>|Array<any>) => IPresentVariable<Extensions> & Extensions;
 
   /**
    * Ensures the variable is set on process.env. If it's not set an exception will be thrown.
    * Can pass false to bypass the check
    */
-  required: (isRequired?: boolean) => IPresentVariable;
+  required: (isRequired?: boolean) => IPresentVariable<Extensions> & Extensions;
 
   /**
    * Converts a number to an integer and verifies it's in port ranges 0-65535
@@ -275,6 +275,6 @@ export type ExtensionFn<T> = (value: string, ...args: any[]) => T
 export function get(): {[varName: string]: string}
 export function get(varName: string): IOptionalVariable;
 export function from<T extends Extensions, K extends keyof T>(values: NodeJS.ProcessEnv, extensions?: T): IEnv<
-  IPresentVariable & Record<K, (...args: any[]) => ReturnType<T[K]>>,
-  IOptionalVariable & Record<K, (...args: any[]) => ReturnType<T[K]>|undefined>
+  IPresentVariable<Record<K, (...args: any[]) => ReturnType<T[K]>>> & Record<K, (...args: any[]) => ReturnType<T[K]>>,
+  IOptionalVariable<Record<K, (...args: any[]) => ReturnType<T[K]>|undefined>> & Record<K, (...args: any[]) => ReturnType<T[K]>|undefined>
 >;
