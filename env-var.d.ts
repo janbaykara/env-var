@@ -3,7 +3,7 @@
 
 import { Url } from 'url';
 
-interface IPresentVariable<Extensions> {
+interface IPresentVariable<Extensions = {}> {
   /**
    * Converts a bas64 environment variable to ut8
    */
@@ -120,7 +120,7 @@ interface IPresentVariable<Extensions> {
   asEnum: (validValues: string[]) => string;
 }
 
-interface IOptionalVariable<Extensions> {
+interface IOptionalVariable<Extensions = {}> {
   /**
    * Decodes a base64-encoded environment variable
    */
