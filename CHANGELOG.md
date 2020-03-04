@@ -1,3 +1,6 @@
+## 6.0.4 (04/03/20)
+* Fix compilation error caused by typings generic issue.
+
 ## 6.0.3 (03/03/20)
 * Fix typings to support `required()`, `convertFromBase64()`, etc. with `ExtensionFn`.
 
