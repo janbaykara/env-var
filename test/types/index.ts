@@ -128,8 +128,6 @@ describe('typescript tests', () => {
 
       const extendedEnvA = env.from({
         ZERO: '0'
-      }, {
-        asNumberZero
       })
 
       const extendedEnvB = extendedEnvA.from({

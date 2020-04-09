@@ -25,7 +25,7 @@ interface IPresentVariable<Extensions = {}> {
    * Ensures the variable is set on process.env. If it's not set an exception
    * will be thrown. Can pass false to bypass the check.
    */
-  required: (isRequired?: boolean) => IPresentVariable<Extensions> & Extensions;
+  required: (isRequired?: boolean) => IPresentVariable & ExtenderType<Extensions>;
 
   /**
    * Converts a number to an integer and verifies it's in port ranges 0-65535
@@ -142,7 +142,7 @@ interface IOptionalVariable<Extensions = {}> {
    * Ensures the variable is set on process.env. If it's not set an exception will be thrown.
    * Can pass false to bypass the check
    */
-  required: (isRequired?: boolean) => IPresentVariable<Extensions> & Extensions;
+  required: (isRequired?: boolean) => IPresentVariable & ExtenderType<Extensions>;
 
   /**
    * Converts a number to an integer and verifies it's in port ranges 0-65535
@@ -267,8 +267,8 @@ interface IEnv<PresentVariable, OptionalVariable> {
 }
 
 // Used internally only to support extension fns
-type ExtenderType<T> = { [P in keyof T]: () => ReturnType<T[P]> }
-type ExtenderTypeOptional<T> = { [P in keyof T]: () => ReturnType<T[P]>|undefined }
+type ExtenderType<T> = { [P in keyof T]: (...args: any[]) => ReturnType<T[P]> }
+type ExtenderTypeOptional<T> = { [P in keyof T]: (...args: any[]) => ReturnType<T[P]>|undefined }
 
 export type Extensions = {
   [key: string]: ExtensionFn<any>
