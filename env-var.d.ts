@@ -254,9 +254,9 @@ interface IEnv<PresentVariable, OptionalVariable> {
    * Returns a new env-var instance, where the given object is used for the environment variable mapping.
    * Use this when writing unit tests or in environments outside node.js.
    */
-  from<T extends Extensions, K extends keyof T>(values: NodeJS.ProcessEnv, extensions?: T): IEnv<
-    IPresentVariable & Record<K, (...args: any[]) => ReturnType<T[K]>>,
-    IOptionalVariable & Record<K, (...args: any[]) => ReturnType<T[K]>|undefined>
+  from<T extends Extensions>(values: NodeJS.ProcessEnv, extensions?: T): IEnv<
+    IPresentVariable<T> & ExtenderType<T>,
+    IOptionalVariable<T> & ExtenderTypeOptional<T>
   >;
 
   /**
@@ -266,15 +266,18 @@ interface IEnv<PresentVariable, OptionalVariable> {
   EnvVarError: EnvVarError
 }
 
+// Used internally only to support extension fns
+type ExtenderType<T> = { [P in keyof T]: () => ReturnType<T[P]> }
+type ExtenderTypeOptional<T> = { [P in keyof T]: () => ReturnType<T[P]>|undefined }
+
 export type Extensions = {
   [key: string]: ExtensionFn<any>
 }
 export type RaiseErrorFn = (error: string) => void
 export type ExtensionFn<T> = (value: string, ...args: any[]) => T
-
 export function get(): {[varName: string]: string}
 export function get(varName: string): IOptionalVariable;
-export function from<T extends Extensions, K extends keyof T>(values: NodeJS.ProcessEnv, extensions?: T): IEnv<
-  IPresentVariable<Record<K, (...args: any[]) => ReturnType<T[K]>>> & Record<K, (...args: any[]) => ReturnType<T[K]>>,
-  IOptionalVariable<Record<K, (...args: any[]) => ReturnType<T[K]>|undefined>> & Record<K, (...args: any[]) => ReturnType<T[K]>|undefined>
+export function from<T extends Extensions>(values: NodeJS.ProcessEnv, extensions?: T): IEnv<
+  IPresentVariable<ExtenderType<T>> & ExtenderType<T>,
+  IOptionalVariable<ExtenderTypeOptional<T>> & ExtenderTypeOptional<T>
 >;
