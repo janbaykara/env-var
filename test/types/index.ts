@@ -1,9 +1,7 @@
 
 import * as env from '../../';
 import { expect } from 'chai'
-import * as url from 'url';
 import 'mocha'
-import { throws } from 'assert';
 
 describe('typescript tests', () => {
   describe('#from', () => {

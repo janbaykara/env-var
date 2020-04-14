@@ -85,7 +85,7 @@ interface IPresentVariable<Extensions = {}> {
   asJsonObject: () => Object;
 
   /**
-   * Reads an environment variable as a string, then splits it on each occurence of the specified delimiter.
+   * Reads an environment variable as a string, then splits it on each occurrence of the specified delimiter.
    * By default a comma is used as the delimiter. For example a var set to "1,2,3" would become ['1', '2', '3'].
    */
   asArray: (delimiter?: string) => Array<string>;
@@ -202,7 +202,7 @@ interface IOptionalVariable<Extensions = {}> {
   asJsonObject: () => Object|undefined;
 
   /**
-   * Reads an environment variable as a string, then splits it on each occurence of the specified delimiter.
+   * Reads an environment variable as a string, then splits it on each occurrence of the specified delimiter.
    * By default a comma is used as the delimiter. For example a var set to "1,2,3" would become ['1', '2', '3'].
    */
   asArray: (delimiter?: string) => Array<string>|undefined;
@@ -278,6 +278,6 @@ export type ExtensionFn<T> = (value: string, ...args: any[]) => T
 export function get(): {[varName: string]: string}
 export function get(varName: string): IOptionalVariable;
 export function from<T extends Extensions>(values: NodeJS.ProcessEnv, extensions?: T): IEnv<
-  IPresentVariable<ExtenderType<T>> & ExtenderType<T>,
-  IOptionalVariable<ExtenderTypeOptional<T>> & ExtenderTypeOptional<T>
+  IPresentVariable<T> & ExtenderType<T>,
+  IOptionalVariable<T> & ExtenderTypeOptional<T>
 >;
