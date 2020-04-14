@@ -23,7 +23,7 @@
     "url": "https://github.com/evanshortiss/env-var.git"
   },
   "keywords": [
-    "get",
+    "dotenv",
     "env",
     "process.env",
     "process",
@@ -51,9 +51,9 @@
   },
   "homepage": "https://github.com/evanshortiss/env-var",
   "devDependencies": {
-    "@types/chai": "^4.2.10",
-    "@types/mocha": "^7.0.1",
-    "@types/node": "~13.11.0",
+    "@types/chai": "~4.2.10",
+    "@types/mocha": "~7.0.1",
+    "@types/node": "~13.7.0",
     "bluebird": "~3.7.0",
     "chai": "~4.2.0",
     "conditional-type-checks": "1.0.5",

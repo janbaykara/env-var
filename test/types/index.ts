@@ -1,7 +1,6 @@
 
 import * as env from '../../';
 import { expect } from 'chai'
-import * as url from 'url';
 import 'mocha'
 import { assert, IsExact } from 'conditional-type-checks'
 
@@ -35,25 +34,24 @@ describe('typescript tests', () => {
   })
 
   describe('#ExtensionFn', () => {
-    it('should return the email parts for a valid email, throw for invalid', () => {
-      interface EmailComponents {
-        username: string
-        domain: string
-      }
+    interface EmailComponents {
+      username: string
+      domain: string
+    }
+    const asEmailComponents: env.ExtensionFn<EmailComponents> = (value) => {
+      const parts = value.split('@')
 
-      const asEmailComponents: env.ExtensionFn<EmailComponents> = (value) => {
-        const parts = value.split('@')
-
-        if (parts.length != 2) {
-          throw new Error('should be an email')
-        } else {
-          return {
-            username: parts[0],
-            domain: parts[1]
-          }
+      if (parts.length != 2) {
+        throw new Error('should be an email')
+      } else {
+        return {
+          username: parts[0],
+          domain: parts[1]
         }
       }
+    }
 
+    it('should return the email parts for a valid email, throw for invalid', () => {
       const extendedEnv = env.from({
         VALID_EMAIL: 'hello@example.com',
         INVALID_EMAIL: 'oops-example.com'
@@ -72,6 +70,78 @@ describe('typescript tests', () => {
       expect(() => {
         extendedEnv.get('INVALID_EMAIL').asEmailComponents()
       }).to.throw('env-var: "INVALID_EMAIL" should be an email, but is set to "oops-example.com"')
+    })
+
+    it('should support multiple extensions (with correct types)', () => {
+      const asNumberZero: env.ExtensionFn<number> = (value) => {
+        const n = parseInt(value)
+
+        if (n === 0) {
+          return 0
+        }
+
+        throw new env.EnvVarError('was not zero')
+      }
+
+      const extendedEnv = env.from({
+        EMAIL: 'hello@example.com',
+        ZERO: '0'
+      }, {
+        asEmailComponents,
+        asNumberZero
+      })
+
+      expect(
+        extendedEnv.get('ZERO').required().asNumberZero()
+      ).to.equal(0)
+
+      expect(
+        extendedEnv.get('ZERO').asNumberZero()
+      ).to.equal(0)
+
+      expect(
+        extendedEnv.get('EMAIL').required().asEmailComponents()
+      ).to.deep.equal({
+        username: 'hello',
+        domain: 'example.com'
+      })
+
+      expect(
+        extendedEnv.get('EMAIL').asEmailComponents()
+      ).to.deep.equal({
+        username: 'hello',
+        domain: 'example.com'
+      })
+    })
+
+    it('should carry extension functions to a child with from()', () => {
+      const asNumberZero: env.ExtensionFn<number> = (value) => {
+        const n = parseInt(value)
+
+        if (n === 0) {
+          return 0
+        }
+
+        throw new env.EnvVarError('was not zero')
+      }
+
+      const extendedEnvA = env.from({
+        ZERO: '0'
+      })
+
+      const extendedEnvB = extendedEnvA.from({
+        ZERO: '0'
+      }, {
+        asNumberZero
+      })
+
+      expect(
+        extendedEnvB.get('ZERO').required().asNumberZero()
+      ).to.equal(0)
+
+      expect(
+        extendedEnvB.get('ZERO').asNumberZero()
+      ).to.equal(0)
     })
   })
 

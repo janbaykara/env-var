@@ -25,7 +25,7 @@ interface IPresentVariable<Extensions = {}> {
    * Ensures the variable is set on process.env. If it's not set an exception
    * will be thrown. Can pass false to bypass the check.
    */
-  required: (isRequired?: boolean) => IPresentVariable<Extensions> & Extensions;
+  required: (isRequired?: boolean) => IPresentVariable & ExtenderType<Extensions>;
 
   /**
    * Converts a number to an integer and verifies it's in port ranges 0-65535
@@ -85,7 +85,7 @@ interface IPresentVariable<Extensions = {}> {
   asJsonObject: () => Object;
 
   /**
-   * Reads an environment variable as a string, then splits it on each occurence of the specified delimiter.
+   * Reads an environment variable as a string, then splits it on each occurrence of the specified delimiter.
    * By default a comma is used as the delimiter. For example a var set to "1,2,3" would become ['1', '2', '3'].
    */
   asArray: (delimiter?: string) => Array<string>;
@@ -142,7 +142,7 @@ interface IOptionalVariable<Extensions = {}> {
    * Ensures the variable is set on process.env. If it's not set an exception will be thrown.
    * Can pass false to bypass the check
    */
-  required: (isRequired?: boolean) => IPresentVariable<Extensions> & Extensions;
+  required: (isRequired?: boolean) => IPresentVariable & ExtenderType<Extensions>;
 
   /**
    * Converts a number to an integer and verifies it's in port ranges 0-65535
@@ -202,7 +202,7 @@ interface IOptionalVariable<Extensions = {}> {
   asJsonObject: () => Object|undefined;
 
   /**
-   * Reads an environment variable as a string, then splits it on each occurence of the specified delimiter.
+   * Reads an environment variable as a string, then splits it on each occurrence of the specified delimiter.
    * By default a comma is used as the delimiter. For example a var set to "1,2,3" would become ['1', '2', '3'].
    */
   asArray: (delimiter?: string) => Array<string>|undefined;
@@ -254,9 +254,9 @@ interface IEnv<PresentVariable, OptionalVariable> {
    * Returns a new env-var instance, where the given object is used for the environment variable mapping.
    * Use this when writing unit tests or in environments outside node.js.
    */
-  from<T extends Extensions, K extends keyof T>(values: NodeJS.ProcessEnv, extensions?: T): IEnv<
-    IPresentVariable & Record<K, (...args: any[]) => ReturnType<T[K]>>,
-    IOptionalVariable & Record<K, (...args: any[]) => ReturnType<T[K]>|undefined>
+  from<T extends Extensions>(values: NodeJS.ProcessEnv, extensions?: T): IEnv<
+    IPresentVariable<T> & ExtenderType<T>,
+    IOptionalVariable<T> & ExtenderTypeOptional<T>
   >;
 
   /**
@@ -266,15 +266,18 @@ interface IEnv<PresentVariable, OptionalVariable> {
   EnvVarError: EnvVarError
 }
 
+// Used internally only to support extension fns
+type ExtenderType<T> = { [P in keyof T]: (...args: any[]) => ReturnType<T[P]> }
+type ExtenderTypeOptional<T> = { [P in keyof T]: (...args: any[]) => ReturnType<T[P]>|undefined }
+
 export type Extensions = {
   [key: string]: ExtensionFn<any>
 }
 export type RaiseErrorFn = (error: string) => void
 export type ExtensionFn<T> = (value: string, ...args: any[]) => T
-
 export function get(): {[varName: string]: string}
 export function get(varName: string): IOptionalVariable;
-export function from<T extends Extensions, K extends keyof T>(values: NodeJS.ProcessEnv, extensions?: T): IEnv<
-  IPresentVariable<Record<K, (...args: any[]) => ReturnType<T[K]>>> & Record<K, (...args: any[]) => ReturnType<T[K]>>,
-  IOptionalVariable<Record<K, (...args: any[]) => ReturnType<T[K]>|undefined>> & Record<K, (...args: any[]) => ReturnType<T[K]>|undefined>
+export function from<T extends Extensions>(values: NodeJS.ProcessEnv, extensions?: T): IEnv<
+  IPresentVariable<T> & ExtenderType<T>,
+  IOptionalVariable<T> & ExtenderTypeOptional<T>
 >;
