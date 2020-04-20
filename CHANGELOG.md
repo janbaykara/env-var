@@ -1,3 +1,7 @@
+## 6.1.0 (20/04/20)
+* Fix TS error with *extraAccessor* typings (#114)
+* Add support for generic types in *asEnum* (#116)
+
 ## 6.0.4 (04/03/20)
 * Fix compilation error caused by typings generic issue.
 
