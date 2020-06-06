@@ -1,6 +1,7 @@
 ## 6.2.0 (07/06/20)
 * Add `accessors` property to the public API for use in building `extraAccessors` (#121)
 * Update README for `asUrlString()` to mention WHATWG URL behaviour (#126)
+* Added Node.js v14 to CI builds
 
 ## 6.1.1 (22/04/20)
 * Fix TS error with *ExtenderTypeOptional* and *ExtenderType* typings (#119)
