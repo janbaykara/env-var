@@ -334,12 +334,18 @@ specific values are:
 #### asUrlString()
 Verifies that the variable is a valid URL string and returns the validated
 string. The validation is performed by passing the URL string to the
-[Node.js URL Constructor](https://nodejs.org/docs/latest/api/url.html).
+[Node.js URL Constructor](https://nodejs.org/docs/latest/api/url.html#url_class_url).
+
+Note that URLS without a path will have one appeneded when read, e.g
+`https://api.acme.org` would become `https://api.acme.org/`. Always use URL
+safe utilities included in the
+[Node.js url module](https://nodejs.org/docs/latest/api/url.html) to create
+valid URL strings instead of error prone string concatenation.
 
 #### asUrlObject()
 Verifies that the variable is a valid URL string using the same method as
 `asUrlString()`, but instead returns the resulting URL instance. For details
-see the [Node.js URL docs](https://nodejs.org/docs/latest/api/url.html).
+see the [Node.js URL docs](https://nodejs.org/docs/latest/api/url.html#url_class_url).
 
 ### EnvVarError()
 This is the error class used to represent errors raised by this module. Sample
