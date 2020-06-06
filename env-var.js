@@ -36,7 +36,13 @@ const from = (container, extraAccessors) => {
       }
 
       return variable(container, variableName, extraAccessors || {})
-    }
+    },
+
+    /**
+     * Provides access to the functions that env-var uses to parse
+     * process.env strings into valid types requested by the API
+     */
+    accessors: require('./lib/accessors/index')
   }
 }
 

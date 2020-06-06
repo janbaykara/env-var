@@ -595,7 +595,7 @@ describe('env-var', function () {
       expect(fromMod.get()).to.have.property('A_STRING', 'blah')
     })
 
-    describe(':extraAccessors', function () {
+    describe('#extraAccessors', function () {
       it('should add custom accessors to subsequent gotten values', function () {
         const fromMod = mod.from({ STRING: 'Hello, world!' }, {
           asShout: function (value) {
@@ -633,6 +633,54 @@ describe('env-var', function () {
 
         expect(fromMod.get('STRING')).to.have.property('asNull')
         expect(otherMod.get('STRING')).not.to.have.property('asNull')
+      })
+    })
+
+    describe('#accessors', () => {
+      describe('#asArray', () => {
+        it('should return an array of strings', () => {
+          const arr = fromMod.accessors.asArray('1,2,3')
+
+          expect(arr).to.eql(['1', '2', '3'])
+        })
+
+        it('should return an array of strings split by period chars', () => {
+          const arr = fromMod.accessors.asArray('1.2.3', '.')
+
+          expect(arr).to.eql(['1', '2', '3'])
+        })
+      })
+
+      describe('#asInt', () => {
+        it('should return an integer', () => {
+          const ret = fromMod.accessors.asInt('1')
+
+          expect(ret).to.eql(1)
+        })
+      })
+    })
+  })
+
+  describe('#accessors', () => {
+    describe('#asArray', () => {
+      it('should return an array of strings', () => {
+        const arr = mod.accessors.asArray('1,2,3')
+
+        expect(arr).to.eql(['1', '2', '3'])
+      })
+
+      it('should return an array of strings split by period chars', () => {
+        const arr = mod.accessors.asArray('1.2.3', '.')
+
+        expect(arr).to.eql(['1', '2', '3'])
+      })
+    })
+
+    describe('#asInt', () => {
+      it('should return an integer', () => {
+        const ret = mod.accessors.asInt('1')
+
+        expect(ret).to.eql(1)
       })
     })
   })

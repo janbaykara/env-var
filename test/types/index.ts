@@ -162,4 +162,28 @@ describe('typescript tests', () => {
       assert<IsExact<typeof enums, 'a' | 'b'>>(true);
     })
   })
+
+  describe('env.accessors', () => {
+    describe('#asArray', () => {
+      it('should return an array of strings', () => {
+        const arr = env.accessors.asArray('1,2,3')
+
+        expect(arr).to.eql(['1','2','3'])
+      })
+
+      it('should return an array of strings split by period chars', () => {
+        const arr = env.accessors.asArray('1.2.3', '.')
+
+        expect(arr).to.eql(['1','2','3'])
+      })
+    })
+
+    describe('#asInt', () => {
+      it('should return an integer', () => {
+        const ret = env.accessors.asInt('1')
+
+        expect(ret).to.eql(1)
+      })
+    })
+  })
 })
