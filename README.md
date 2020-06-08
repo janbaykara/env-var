@@ -127,7 +127,7 @@ Always exercise caution when logging environment variables!
 ### Using the Built-in Logger
 
 The built-in logger will print logs unless `NODE_ENV` is set to either `prod`
-or `production`..
+or `production`.
 
 ```js
 const { from, logger } =  require('env-var')
