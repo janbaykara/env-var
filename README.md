@@ -617,6 +617,7 @@ implementation.
 
 ## Contributors
 * @caccialdo
+* @DigiPie
 * @evanshortiss
 * @gabrieloczkowski
 * @hhravn
