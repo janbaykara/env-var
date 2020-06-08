@@ -490,7 +490,7 @@ const myJsonDirectAccessor = env.accessors.asJson(process.env.SOME_JSON)
 const myJsonViaEnvVar = env.get('SOME_JSON').asJson()
 ```
 
-All of the documented *asX()* accessors below are available. These are useful
+All of the documented *asX()* accessors above are available. These are useful
 if you need to build a custom accessor using the *extraAccessors* functionality
 described below.
 
