@@ -572,6 +572,23 @@ describe('env-var', function () {
       })
     })
 
+    it('should send messages to the custom logger', () => {
+      let spyCallCount = 0
+      const data = {
+        JSON: JSON.stringify({ name: 'env-var' })
+      }
+
+      const env = mod.from(data, {}, (str) => {
+        expect(str).to.be.a('string')
+        spyCallCount++
+      })
+
+      const result = env.get('JSON').asJson()
+
+      expect(result).to.deep.equal({ name: 'env-var' })
+      expect(spyCallCount).to.be.greaterThan(0)
+    })
+
     it('should get a from boolean', function () {
       expect(fromMod.get('A_BOOL').required().asBool()).to.eql(true)
     })
@@ -657,6 +674,24 @@ describe('env-var', function () {
 
           expect(ret).to.eql(1)
         })
+      })
+    })
+
+    describe('#logger', () => {
+      const varname = 'SOME_VAR'
+      const msg = 'this is a test message'
+
+      it('should send a string to the given logger', () => {
+        let spyCalled = false
+        const spy = (str) => {
+          expect(str).to.equal(`env-var (${varname}): ${msg}`)
+          spyCalled = true
+        }
+
+        const log = require('../lib/logger')(spy)
+
+        log(varname, msg)
+        expect(spyCalled).to.equal(true)
       })
     })
   })
