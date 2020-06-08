@@ -478,7 +478,7 @@ const enumVal = env.get('ENVIRONMENT').asEnum(['dev', 'test', 'live'])
 ### accessors
 A property that exposes the built-in accessors that this module uses to parse
 and validate values. These work similarly to the *asString()* and other
-accessors exposed on the *variable* type documented below, however they accept
+accessors exposed on the *variable* type documented above, however they accept
 a *String* as their first argument, e.g:
 
 ```js
