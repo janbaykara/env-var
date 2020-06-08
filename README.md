@@ -127,7 +127,7 @@ Always exercise caution when logging environment variables!
 ### Using the Built-in Logger
 
 The built-in logger will print logs unless `NODE_ENV` is set to either `prod`
-or `production`..
+or `production`.
 
 ```js
 const { from, logger } =  require('env-var')
@@ -478,7 +478,7 @@ const enumVal = env.get('ENVIRONMENT').asEnum(['dev', 'test', 'live'])
 ### accessors
 A property that exposes the built-in accessors that this module uses to parse
 and validate values. These work similarly to the *asString()* and other
-accessors exposed on the *variable* type documented below, however they accept
+accessors exposed on the *variable* type documented above, however they accept
 a *String* as their first argument, e.g:
 
 ```js
@@ -490,7 +490,7 @@ const myJsonDirectAccessor = env.accessors.asJson(process.env.SOME_JSON)
 const myJsonViaEnvVar = env.get('SOME_JSON').asJson()
 ```
 
-All of the documented *asX()* accessors below are available. These are useful
+All of the documented *asX()* accessors above are available. These are useful
 if you need to build a custom accessor using the *extraAccessors* functionality
 described below.
 
