@@ -69,7 +69,7 @@ describe('typescript tests', () => {
 
       expect(() => {
         extendedEnv.get('INVALID_EMAIL').asEmailComponents()
-      }).to.throw('env-var: "INVALID_EMAIL" should be an email, but is set to "oops-example.com"')
+      }).to.throw('env-var: "INVALID_EMAIL" should be an email')
     })
 
     it('should support multiple extensions (with correct types)', () => {
