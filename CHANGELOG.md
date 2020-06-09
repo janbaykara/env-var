@@ -1,4 +1,4 @@
-## 6.2.0 (07/06/20)
+## 6.2.0 (09/06/20)
 * Add `accessors` property to the public API for use in building `extraAccessors` (#121)
 * Add support for logging with a built-in or custom logger (#112)
 * Update README for `asUrlString()` to mention WHATWG URL behaviour (#126)
