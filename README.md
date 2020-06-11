@@ -1,4 +1,7 @@
 # env-var
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <div align="center">
 
@@ -610,7 +613,7 @@ const env = from(process.env, {
 env.get('ADMIN').asEmail()
 ```
 
-You can view an example of composing built-in accessors made available by 
+You can view an example of composing built-in accessors made available by
 `env.accessors` in an extra accessor at *examples/custom-accessor.js*.
 
 ## Contributing
@@ -619,6 +622,19 @@ repo. If you'd like to discuss an idea open an issue, or a PR with an initial
 implementation.
 
 ## Contributors
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://www.evantay.com/"><img src="https://avatars0.githubusercontent.com/u/13582874?v=4" width="100px;" alt=""/><br /><sub><b>Evan</b></sub></a><br /><a href="https://github.com/evanshortiss/env-var/commits?author=DigiPie" title="Code">💻</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
 * @caccialdo
 * @DigiPie
 * @evanshortiss
