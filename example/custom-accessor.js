@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 /**
  * This example demonstrates how you can build a custom accessor by composing
@@ -9,32 +9,32 @@
  * without setting CATCH_ERROR it will print "we got an env-var error"
  */
 
-const env = require('../env-var');
-const { from, accessors } = env;
+const env = require('../env-var')
+const { from, accessors } = env
 
 // Add an accessor named 'asIntRange' which verifies whether the given value is
 // between the specified min and max values, inclusive
 const envInstance = from(process.env, {
   asIntBetween: (value, min, max) => {
-    let ret, minInt, maxInt;
+    let ret, minInt, maxInt
 
     try {
-      ret = accessors.asInt(value);
-      minInt = accessors.asInt(min);
-      maxInt = accessors.asInt(max);
+      ret = accessors.asInt(value)
+      minInt = accessors.asInt(min)
+      maxInt = accessors.asInt(max)
     } catch {
-      throw new Error(`value, min, max must be integers`);
+      throw new Error('value, min, max must be integers')
     }
 
     if (ret < minInt || ret > maxInt) {
       throw new Error(
         `should be an integer between the range of [${min}, ${max}]`
-      );
+      )
     }
 
-    return ret;
-  },
-});
+    return ret
+  }
+})
 
 try {
   // Will throw an error if you have not set this environment variable
@@ -43,22 +43,22 @@ try {
   // env-var instances.
 
   // This will pass
-  process.env['SERVER_INSTANCES'] = 10;
-  let serverInstances = envInstance.get('SERVER_INSTANCES').asIntBetween(1, 10);
+  process.env.SERVER_INSTANCES = 10
+  let serverInstances = envInstance.get('SERVER_INSTANCES').asIntBetween(1, 10)
 
   // This will fail because min is not an integer
-  /*process.env['SERVER_INSTANCES'] = 1;
-  serverInstances = envInstance.get('SERVER_INSTANCES').asIntBetween('one', 10);*/
+  /* process.env['SERVER_INSTANCES'] = 1;
+  serverInstances = envInstance.get('SERVER_INSTANCES').asIntBetween('one', 10); */
 
   // This will fail because out of range
-  process.env['SERVER_INSTANCES'] = 0;
-  serverInstances = envInstance.get('SERVER_INSTANCES').asIntBetween(1, 10);
+  process.env.SERVER_INSTANCES = 0
+  serverInstances = envInstance.get('SERVER_INSTANCES').asIntBetween(1, 10)
 
-  console.log(`SERVER_INSTANCES=${serverInstances}`);
+  console.log(`SERVER_INSTANCES=${serverInstances}`)
 } catch (e) {
   if (e instanceof envInstance.EnvVarError) {
-    console.log('We got an env-var error', e);
+    console.log('We got an env-var error', e)
   } else {
-    console.log('Unexpected error', e);
+    console.log('Unexpected error', e)
   }
 }
