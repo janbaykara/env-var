@@ -1,7 +1,7 @@
 
 /// <reference types="node" />
 
-import { Url } from 'url';
+import { URL } from 'url';
 
 
 type PublicAccessors = {
@@ -81,16 +81,22 @@ type PublicAccessors = {
   asBoolStrict: (input: string) => boolean;
 
   /**
-   * Verifies that the environment variable being accessed is a valid URL and
-   * returns it as a string. Uses the "is-url" module
+   * Verifies that the variable is a valid URL string and returns the validated
+   * string. The validation is performed by passing the URL string to the
+   * Node.js URL constructor.
+   *
+   * Note that URLs without paths will have a default path `/` appended when read, e.g.
+   * `https://api.acme.org` would become `https://api.acme.org/`. Always use URL
+   * safe utilities included in the Node.js URL module to create
+   * valid URL strings, instead of error prone string concatenation.
    */
   asUrlString: (input: string) => string;
 
   /**
-   * Verifies that the environment variable being accessed is a valid URL and
-   * returns it as a core URL object. Uses the "is-url" module.
+   * Verifies that the variable is a valid URL string using the same method as
+   * `asUrlString()`, but instead returns the resulting URL instance.
    */
-  asUrlObject: (input: string) => Url;
+  asUrlObject: (input: string) => URL;
 
   /**
    * Verifies that the var being accessed is one of the given values
@@ -175,16 +181,22 @@ interface VariableAccessors <AlternateType = unknown> {
   asBoolStrict: () => AlternateType extends undefined ? undefined|boolean : boolean;
 
   /**
-   * Verifies that the environment variable being accessed is a valid URL and
-   * returns it as a string. Uses the "is-url" module
+   * Verifies that the variable is a valid URL string and returns the validated
+   * string. The validation is performed by passing the URL string to the
+   * Node.js URL constructor.
+   *
+   * Note that URLs without paths will have a default path `/` appended when read, e.g.
+   * `https://api.acme.org` would become `https://api.acme.org/`. Always use URL
+   * safe utilities included in the Node.js URL module to create
+   * valid URL strings, instead of error prone string concatenation.
    */
   asUrlString: () => AlternateType extends undefined ? undefined|string : string;
 
   /**
-   * Verifies that the environment variable being accessed is a valid URL and
-   * returns it as a core URL object. Uses the "is-url" module.
+   * Verifies that the variable is a valid URL string using the same method as
+   * `asUrlString()`, but instead returns the resulting URL instance.
    */
-  asUrlObject: () => AlternateType extends undefined ? undefined|Url : Url;
+  asUrlObject: () => AlternateType extends undefined ? undefined|URL : URL;
 
   /**
    * Verifies that the var being accessed is one of the given values
@@ -196,19 +208,19 @@ interface IPresentVariable<Exs extends Extensions = {}> extends VariableAccessor
   /**
    * Converts a bas64 environment variable to ut8
    */
-  convertFromBase64: () => IPresentVariable<Exs> & Exs
+  convertFromBase64: () => IPresentVariable<Exs> & ExtenderType<Exs>
 
   /**
    * Provide an example value that can be used in error output if the variable
    * is not set, or is set to an invalid value
    */
-  example: (example: string) => IPresentVariable<Exs> & Exs
+  example: (example: string) => IPresentVariable<Exs> & ExtenderType<Exs>
 
   /**
    * Set a default value for this variable. This will be used if a value is not
    * set in the process environment
    */
-  default: (value: string|number|Record<string, any>|Array<any>) => IPresentVariable<Exs> & Exs;
+  default: (value: string|number|Record<string, any>|Array<any>) => IPresentVariable<Exs> & ExtenderType<Exs>;
 
   /**
    * Ensures the variable is set on process.env. If it's not set an exception
@@ -221,19 +233,19 @@ interface IOptionalVariable<Exs extends Extensions = {}> extends VariableAccesso
   /**
    * Decodes a base64-encoded environment variable
    */
-  convertFromBase64: () => IOptionalVariable<Exs> & Exs;
+  convertFromBase64: () => IOptionalVariable<Exs> & ExtenderTypeOptional<Exs>;
 
   /**
    * Provide an example value that can be used in error output if the variable
    * is not set, or is set to an invalid value
    */
-  example: (value: string) => IOptionalVariable<Exs> & Exs;
+  example: (value: string) => IOptionalVariable<Exs> & ExtenderTypeOptional<Exs>;
 
   /**
    * Set a default value for this variable. This will be used if a value is not
    * set in the process environment
    */
-  default: (value: string|number|Record<string, any>|Array<any>) => IPresentVariable<Exs> & Exs;
+  default: (value: string|number|Record<string, any>|Array<any>) => IPresentVariable<Exs> & ExtenderType<Exs>;
 
   /**
    * Ensures the variable is set on process.env. If it's not set an exception will be thrown.
@@ -274,8 +286,9 @@ interface IEnv<PresentVariable, OptionalVariable> {
 }
 
 // Used internally only to support extension fns
-type ExtenderType<T extends Extensions> = { [P in keyof T]: (...args: any[]) => ReturnType<T[P]> }
-type ExtenderTypeOptional<T extends Extensions> = { [P in keyof T]: (...args: any[]) => ReturnType<T[P]>|undefined }
+type RestParams<F extends (...args: any[]) => any> = F extends (value: string, ...args: infer P) => any ? P : any[];
+type ExtenderType<T extends Extensions> = { [P in keyof T]: (...args: RestParams<T[P]>) => ReturnType<T[P]> }
+type ExtenderTypeOptional<T extends Extensions> = { [P in keyof T]: (...args: RestParams<T[P]>) => ReturnType<T[P]>|undefined }
 
 export type Extensions = {
   [key: string]: ExtensionFn<any>
