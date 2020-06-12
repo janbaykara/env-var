@@ -622,20 +622,9 @@ repo. If you'd like to discuss an idea open an issue, or a PR with an initial
 implementation.
 
 ## Contributors
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tr>
-    <td align="center"><a href="https://www.evantay.com/"><img src="https://avatars0.githubusercontent.com/u/13582874?v=4" width="100px;" alt=""/><br /><sub><b>Evan</b></sub></a><br /><a href="https://github.com/evanshortiss/env-var/commits?author=DigiPie" title="Code">💻</a></td>
-  </tr>
-</table>
-
-<!-- markdownlint-enable -->
-<!-- prettier-ignore-end -->
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
+* @aautio
 * @caccialdo
+* @ChibiBlasphem
 * @DigiPie
 * @evanshortiss
 * @gabrieloczkowski
