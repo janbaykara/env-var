@@ -1,3 +1,13 @@
+## 6.2.0 (12/06/20)
+* Add `accessors` property to the public API for use in building `extraAccessors` (#121)
+* Add support for logging with a built-in or custom logger (#112)
+* Add Node.js v14 to CI builds
+* Add single quote rule to `.editorconfig` (#129)
+* Add JavaScript example for `extraAccesors` (#129)
+* Fix `extraAccessors` args type error (#131)
+* Fix types and docs for `asUrlString()` and `asUrlObject()` (#132)
+* Update README for `asUrlString()` to mention WHATWG URL behaviour (#126, #129)
+
 ## 6.1.1 (22/04/20)
 * Fix TS error with *ExtenderTypeOptional* and *ExtenderType* typings (#119)
 
