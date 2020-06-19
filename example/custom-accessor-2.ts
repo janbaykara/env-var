@@ -1,5 +1,3 @@
-'use strict'
-
 /**
  * This example demonstrates how you can build a custom accessor by composing
  * internal accessors available at env.accessors, and attach it to the env-var
@@ -7,18 +5,20 @@
  *
  * Here we use the EnvVarError type to catch an error. If you run the program
  * without setting CATCH_ERROR it will print "we got an env-var error".
- *
- * To test out this example, run 'node custom-accessor.js'.
+ * 
+ * To test out this example, run 'tsc custom-accessor-2.ts && node custom-accessor-2.js'.
+ * This was named 'custom-accessor-2.ts' to prevent override of the Javascript-equivalent
+ * of this example 'custom-accessor.js'.
  */
 
-const env = require('../env-var')
+import * as env from '../env-var'
 const { from, accessors } = env
 
 // Add an accessor named 'asIntRange' which verifies whether the given value is
 // between the specified min and max values, inclusive
 const envInstance = from(process.env, {
   asIntBetween: (value, min, max) => {
-    let ret, minInt, maxInt
+    let ret: number, minInt: number, maxInt: number
 
     try {
       ret = accessors.asInt(value)
@@ -45,20 +45,20 @@ try {
   // env-var instances.
 
   // This will pass
-  process.env.SERVER_INSTANCES = 10
+  process.env.SERVER_INSTANCES = '10'
   let serverInstances = envInstance.get('SERVER_INSTANCES').asIntBetween(1, 10)
 
   // This will fail because min is not an integer
-  /* process.env['SERVER_INSTANCES'] = 1
-  serverInstances = envInstance.get('SERVER_INSTANCES').asIntBetween('one', 10) */
+  process.env['SERVER_INSTANCES'] = '1'
+  serverInstances = envInstance.get('SERVER_INSTANCES').asIntBetween('one', 10)
 
   // This will fail because out of range
-  process.env.SERVER_INSTANCES = 0
-  serverInstances = envInstance.get('SERVER_INSTANCES').asIntBetween(1, 10)
+  /*process.env.SERVER_INSTANCES = '0'
+  serverInstances = envInstance.get('SERVER_INSTANCES').asIntBetween(1, 10)*/
 
   console.log(`SERVER_INSTANCES=${serverInstances}`)
 } catch (e) {
-  if (e instanceof envInstance.EnvVarError) {
+  if (e instanceof env.EnvVarError) {
     console.log('We got an env-var error', e)
   } else {
     console.log('Unexpected error', e)
