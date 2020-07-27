@@ -1,3 +1,7 @@
+## 6.3.0
+* Add `asRegExp` accessor (#136)
+* Add better TypeScript example for custom accessors (#133)
+
 ## 6.2.0 (12/06/20)
 * Add `accessors` property to the public API for use in building `extraAccessors` (#121)
 * Add support for logging with a built-in or custom logger (#112)
