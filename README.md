@@ -191,6 +191,7 @@ const API_KEY = env.get('API_KEY').required().asString()
       * [asString()](#asstring)
       * [asUrlObject()](#asurlobject)
       * [asUrlString()](#asurlstring)
+      * [asRegExp()](#asregexp)
   * [EnvVarError()](#envvarerror)
   * [accessors](#accessors)
 
@@ -411,6 +412,11 @@ Verifies that the variable is a valid URL string using the same method as
 `asUrlString()`, but instead returns the resulting URL instance. For details
 see the [Node.js URL docs](https://nodejs.org/docs/latest/api/url.html#url_class_url).
 
+#### asRegExp([flags: string])
+Read in the variable and construct a [`RegExp`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp)
+instance using its value. An optional `flags` argument is supported. The string
+passed for `flags` is passed as the second argument to the `RegExp` constructor.
+
 ### EnvVarError()
 This is the error class used to represent errors raised by this module. Sample
 usage:
@@ -626,6 +632,7 @@ implementation.
 * @evanshortiss
 * @gabrieloczkowski
 * @hhravn
+* @ineentho
 * @itavy
 * @joh-klein
 * @MikeyBurkman
