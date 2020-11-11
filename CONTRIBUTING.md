@@ -7,11 +7,10 @@ Thanks for your interest in contributing to the project! 🎉
 There are just a few things to be aware of when making a contribution. If you have trouble meeting these requirements don't be shy about asking for help:
 
 * No contribution is too big or too small. Don't be shy, open an issue and we can discuss it 💬
-* Generally, opening an issue before making a PR is a good idea unless your PR is addressing a very clear cut bug 🐛
+* Generally, opening an issue before making a PR is a good idea unless your PR is addressing a very clear cut bug/error 🐛
 * Follow the prevailing code-style. A PR that changes indentation, adds extra formatting, etc. won't be merged unless it aligns with the existing code-style 📝
 * If you add/change/remove a feature the relevant tests must be updated and the CI build should pass with sufficient code coverage ✅
 * Be respectful and follow the code of conduct. If you need a TLDR of the code of conduct it's "treat others with respect" 🙏
-
 
 ### Adding an Accessor
 
