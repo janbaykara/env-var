@@ -1,4 +1,4 @@
-## 7.0.0 (10/11/2020)
+## 7.0.0 (11/11/2020)
 * Drop support for Node.js 8 and 13 (support only current, active, and maintenance versions)
 * Improve support for browser usage (#138)
 * Fix documentation errors (#139)
