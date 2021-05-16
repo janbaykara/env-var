@@ -93,7 +93,7 @@ You can also create your own custom accessor; refer to the ['extraAccessors' sec
 
 Logging is disabled by default in `env-var` to prevent accidental logging of secrets.
 
-To enable logging, you need to create an `env-var` instance using the `from()` function that the API provides and pass in a logger. 
+To enable logging, you need to create an `env-var` instance using the `from()` function that the API provides and pass in a logger.
 
 - A built-in logger is available, but a custom logger is also supported.
 - Always exercise caution when logging environment variables!
@@ -142,6 +142,7 @@ Contributions are welcomed and discussed in [CONTRIBUTING.md](CONTRIBUTING.md). 
 * @hhravn
 * @ineentho
 * @itavy
+* @jerome-fox
 * @joh-klein
 * @MikeyBurkman
 * @pepakriz

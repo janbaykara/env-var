@@ -1,3 +1,6 @@
+## 7.0.1
+* Fix loose float and int parsing (PR #144)
+
 ## 7.0.0 (11/11/2020)
 * Drop support for Node.js 8 and 13 (support only current, active, and maintenance versions)
 * Improve support for browser usage (#138)
